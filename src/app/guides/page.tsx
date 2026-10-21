@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/Navbar'
+import { ptToText } from '@/lib/ptText'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -22,7 +23,7 @@ const CANONICAL = `${BASE}/guides/`
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('guides').catch(() => null)
   const title = replaceDateVars(page?.metaTitle || page?.title || 'Guides')
-  const description = replaceDateVars(page?.metaDescription || page?.intro || 'Guides om elpriser, elselskaber og hvordan du sparer på strømmen.')
+  const description = replaceDateVars(page?.metaDescription || ptToText(page?.intro) || 'Guides om elpriser, elselskaber og hvordan du sparer på strømmen.')
   return { title, description, alternates: { canonical: CANONICAL } }
 }
 

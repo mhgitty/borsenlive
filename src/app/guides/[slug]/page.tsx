@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/Navbar'
+import { ptToText } from '@/lib/ptText'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!guide) return {}
   const canonical = `${BASE}/guides/${slug}/`
   const title = replaceDateVars(guide.metaTitle || guide.title)
-  const description = replaceDateVars(guide.metaDescription || guide.intro || '')
+  const description = replaceDateVars(guide.metaDescription || ptToText(guide.intro))
   const ogImg = (guide as any).featuredImage
   return {
     title, description,

@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/Navbar'
+import { ptToText } from '@/lib/ptText'
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { HeroSection } from '@/components/HeroSection'
@@ -69,7 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await getPageByPath([slug]).catch(() => null)
   if (page) {
     const title = replaceDateVars(page.metaTitle || page.title)
-    const description = replaceDateVars(page.metaDescription || page.intro || '')
+    const description = replaceDateVars(page.metaDescription || ptToText(page.intro))
     const canonical = `${BASE}/${slug}/`
     return { title, description, alternates: { canonical }, openGraph: { title, description, url: canonical } }
   }
@@ -198,7 +199,7 @@ export default async function SlugPage({ params }: Props) {
         '@id': `${canonical}#webpage`,
         url: canonical,
         name: page.title,
-        description: page.intro || '',
+        description: ptToText(page.intro),
         inLanguage: LANG,
         publisher: { '@type': 'Organization', name: SITE_NAME, url: BASE },
       },

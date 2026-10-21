@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/Navbar'
+import { ptToText } from '@/lib/ptText'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { ElprisHeroStats, elprisArea } from '@/components/elpris/ElprisHeroStats'
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await getPageByPath(slug).catch(() => null)
   if (!page) return {}
   const title = replaceDateVars(page.metaTitle || page.title)
-  const description = replaceDateVars(page.metaDescription || page.intro || '')
+  const description = replaceDateVars(page.metaDescription || ptToText(page.intro))
   const canonical = `${BASE}${buildPath(slug)}`
   const ogUrl = (page as any).ogImage?.url || (page as any).featuredImage?.url || `${BASE}/og.png`
   return { title, description, alternates: { canonical }, openGraph: { title, description, url: canonical, type: 'article', images: [{ url: ogUrl }] }, twitter: { card: 'summary_large_image', images: [ogUrl] } }
@@ -72,7 +73,7 @@ export default async function DynamicPage({ params }: Props) {
         '@id': `${canonical}#webpage`,
         url: canonical,
         name: page.title,
-        description: page.intro || '',
+        description: ptToText(page.intro),
         inLanguage: LANG,
         ...(page.datePublished ? { datePublished: page.datePublished } : {}),
         ...(page.dateModified ? { dateModified: page.dateModified } : {}),

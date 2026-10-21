@@ -1,9 +1,10 @@
 'use client'
 import { PortableText } from '@portabletext/react'
+import { replaceDateVarsInBlocks } from '@/lib/dateVars'
 
 const components = {
   block: {
-    normal: ({ children }: any) => <>{children}</>,
+    normal: ({ children }: any) => <span className="intro-p">{children}</span>,
   },
   marks: {
     strong: ({ children }: any) => <strong>{children}</strong>,
@@ -15,7 +16,7 @@ const components = {
           href={value?.href}
           target={value?.blank ? '_blank' : undefined}
           rel={rel}
-          style={{ color: 'var(--green)', textDecoration: 'underline', textDecorationColor: 'rgba(46,123,214,0.4)' }}
+          style={{ color: 'var(--brand-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', textDecorationColor: 'var(--brand-300)' }}
         >
           {children}
         </a>
@@ -35,5 +36,5 @@ const components = {
 export function RichIntro({ value }: { value: string | any[] | null | undefined }) {
   if (!value) return null
   if (typeof value === 'string') return <>{value}</>
-  return <PortableText value={value} components={components} />
+  return <PortableText value={replaceDateVarsInBlocks(value)} components={components} />
 }

@@ -424,3 +424,7 @@ a[rel~="sponsored"] { transition: background .15s, box-shadow .15s; }
   .ticker-unit { display: none; }
   .promo-popup { width: 100%; border-radius: var(--r-lg) var(--r-lg) 0 0; }
 }
+
+/* Rich intro paragraphs (rendered inside a <p>) */
+.intro-p { display: block; }
+.intro-p + .intro-p { margin-top: .75em; }

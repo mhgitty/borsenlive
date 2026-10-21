@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { AuthorBar } from '@/components/AuthorBar'
 import { Icon } from '@/components/Icon'
+import { RichIntro } from '@/components/RichIntro'
 import { replaceDateVars } from '@/lib/dateVars'
 import { getReviewSheetData, getCompareData, priceFor } from '@/lib/elselskab-compare'
 import styles from './ReviewHero.module.css'
@@ -88,7 +89,9 @@ export async function ReviewHero({ es, author, slug }: Props) {
               <span className={styles.kicker}>Anmeldelse</span>
             </div>
             <h1 className={styles.title}>{title}</h1>
-            {blurb && <p className={styles.blurb}>{replaceDateVars(blurb)}</p>}
+            {x['kort om'] ? <p className={styles.blurb}>{replaceDateVars(x['kort om'])}</p>
+              : es.intro?.length ? <p className={styles.blurb}><RichIntro value={es.intro} /></p>
+              : blurb && <p className={styles.blurb}>{replaceDateVars(blurb)}</p>}
 
             {facts.length > 0 && (
               <ul className={styles.facts}>
