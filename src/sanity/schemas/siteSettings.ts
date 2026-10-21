@@ -229,7 +229,7 @@ export const siteSettingsType = defineType({
       type: 'text',
       rows: 2,
       group: 'footer',
-      initialValue: 'Bosonlife.dk sammenligner elselskaber og elpriser, så du nemt kan finde den bedste elaftale.',
+      initialValue: 'Borsenlive.dk sammenligner elselskaber og elpriser, så du nemt kan finde den bedste elaftale.',
     }),
     defineField({
       name: 'socialLinks',
@@ -359,7 +359,7 @@ export const siteSettingsType = defineType({
       title: 'Footer bottom bar — left text',
       type: 'string',
       group: 'footer',
-      initialValue: '© Bosonlife.dk',
+      initialValue: '© Borsenlive.dk',
     }),
     defineField({
       name: 'footerDisclaimer',

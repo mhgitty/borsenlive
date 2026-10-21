@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const categories = await getCategories().catch(() => [])
   const cat = categories.find((c: any) => c.slug.current === category)
   if (!cat) return {}
-  const title = `${cat.name} — Bosonlife`
-  const description = cat.description || `Alle artikler om ${cat.name.toLowerCase()} fra Bosonlife.`
+  const title = `${cat.name} — Borsenlive`
+  const description = cat.description || `Alle artikler om ${cat.name.toLowerCase()} fra Borsenlive.`
   return {
     title,
     description,

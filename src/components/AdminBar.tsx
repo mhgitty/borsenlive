@@ -105,7 +105,7 @@ export function AdminBar() {
         letterSpacing: '-0.01em',
         whiteSpace: 'nowrap',
       }}>
-        Bosonlife
+        Borsenlive
       </Link>
 
       <div style={{ width: '1px', height: '16px', background: '#1e293b', margin: '0 6px' }} />

@@ -1,13 +1,13 @@
-# Bosonlife.dk
+# Borsenlive.dk
 
 Next.js 16 + Sanity (embedded Studio at `/studio`) — the Pokcas framework, rebuilt for Danish electricity comparison.
 
 ## Setup
 
-1. Create a **new** Sanity project for Bosonlife at sanity.io/manage (dataset `production`). Add `http://localhost:3000` and the production domain under API → CORS origins (with credentials).
+1. Create a **new** Sanity project for Borsenlive at sanity.io/manage (dataset `production`). Add `http://localhost:3000` and the production domain under API → CORS origins (with credentials).
 2. `cp .env.local.example .env.local` and fill in the project id, secrets and GA ID.
 3. `npm install` → `npm run dev` → open http://localhost:3000/studio
-4. In Vercel: new project from this repo, same env vars. Sanity webhook → `https://bosonlife.dk/api/revalidate?secret=REVALIDATE_SECRET`.
+4. In Vercel: new project from this repo, same env vars. Sanity webhook → `https://borsenlive.dk/api/revalidate?secret=REVALIDATE_SECRET`.
 
 ## Content types
 

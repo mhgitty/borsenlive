@@ -1,4 +1,4 @@
-export const metadata = { title: 'Bosonlife Studio' }
+export const metadata = { title: 'Borsenlive Studio' }
 
 export default function StudioLayout({ children }: { children: React.ReactNode }) {
   return (

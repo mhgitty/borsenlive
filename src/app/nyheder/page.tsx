@@ -10,12 +10,12 @@ export const revalidate = 3600
 
 
 export const metadata: Metadata = {
-  title: 'Nyheder — Bosonlife',
-  description: 'Nyheder og artikler om elpriser, elselskaber og energi fra Bosonlife.',
+  title: 'Nyheder — Borsenlive',
+  description: 'Nyheder og artikler om elpriser, elselskaber og energi fra Borsenlive.',
   alternates: { canonical: `${BASE}/nyheder/` },
   openGraph: {
-    title: 'Nyheder — Bosonlife',
-    description: 'Nyheder og artikler om elpriser, elselskaber og energi fra Bosonlife.',
+    title: 'Nyheder — Borsenlive',
+    description: 'Nyheder og artikler om elpriser, elselskaber og energi fra Borsenlive.',
     url: `${BASE}/nyheder/`,
   },
 }

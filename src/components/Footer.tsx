@@ -55,12 +55,12 @@ export async function Footer({
 
   const settings = await getSiteSettings().catch(() => null)
   const logoWhiteUrl = settings?.logoWhiteUrl ?? '/logo-white.webp'
-  const tagline      = taglineProp      ?? settings?.footerTagline      ?? 'Bosonlife.dk sammenligner elselskaber og elpriser, så du nemt kan finde den bedste elaftale.'
+  const tagline      = taglineProp      ?? settings?.footerTagline      ?? 'Borsenlive.dk sammenligner elselskaber og elpriser, så du nemt kan finde den bedste elaftale.'
   const columns      = columnsProp      ?? (settings?.footerColumns?.length ? settings.footerColumns : DEFAULT_COLUMNS)
   const longDisclaimer = longDisclaimerProp ?? settings?.footerLongDisclaimer ?? null
   const mediaLogos   = mediaLogosProp   ?? settings?.footerMediaLogos   ?? []
   const trustIcons   = trustIconsProp   ?? settings?.footerTrustIcons   ?? []
-  const note         = noteProp         ?? settings?.footerNote         ?? `© ${year} Bosonlife.dk`
+  const note         = noteProp         ?? settings?.footerNote         ?? `© ${year} Borsenlive.dk`
   const disclaimer   = disclaimerProp   ?? settings?.footerDisclaimer   ?? 'Siden indeholder affiliate-links'
   const bottomNav    = bottomNavProp    ?? settings?.footerBottomNav    ?? []
   const socialLinks  = socialLinksProp  ?? settings?.socialLinks        ?? null
@@ -82,7 +82,7 @@ export async function Footer({
             <div style={{ marginBottom: '14px' }}>
               <Image
                 src={logoWhiteUrl}
-                alt="Bosonlife"
+                alt="Borsenlive"
                 height={32}
                 width={180}
                 style={{ height: '32px', width: 'auto', display: 'block' }}

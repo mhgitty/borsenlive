@@ -8,7 +8,7 @@ import { previewAction } from './src/sanity/previewAction'
 
 export default defineConfig({
   name: 'default',
-  title: 'Bosonlife.dk',
+  title: 'Borsenlive.dk',
   basePath: '/studio',
 
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,

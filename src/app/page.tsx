@@ -48,7 +48,7 @@ export default async function HomePage() {
     : [
         { _key: 'trust-1', icon: 'bolt',         title: 'Opdaterede priser',      body: 'Vi holder øje med elselskabernes tillæg, abonnementer og introtilbud, så sammenligningen altid er aktuel.' },
         { _key: 'trust-2', icon: 'scale',        title: 'Uafhængig sammenligning', body: 'Vi sammenligner elaftaler på de samme parametre, så du kan se forskellen på spotpris, fastpris og binding.' },
-        { _key: 'trust-3', icon: 'wallet-money', title: 'Gratis at bruge',         body: 'Det koster ingenting at bruge Bosonlife. Vi kan modtage provision, når du skifter via vores links.' },
+        { _key: 'trust-3', icon: 'wallet-money', title: 'Gratis at bruge',         body: 'Det koster ingenting at bruge Borsenlive. Vi kan modtage provision, når du skifter via vores links.' },
       ]
 
   const faqs = (hp?.body ?? [])

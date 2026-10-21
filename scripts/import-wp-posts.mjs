@@ -2,7 +2,7 @@
  * WordPress → Sanity post importer
  * Usage: SANITY_TOKEN=xxx NEXT_PUBLIC_SANITY_PROJECT_ID=yyy node scripts/import-wp-posts.mjs
  *
- * Fetches all published posts from bosonlife.dk's WP REST API and creates
+ * Fetches all published posts from borsenlive.dk's WP REST API and creates
  * matching `post` documents in Sanity. Existing posts (matched by slug)
  * are skipped so you can re-run safely.
  */
@@ -10,7 +10,7 @@
 import { createClient } from '@sanity/client'
 import { JSDOM } from 'jsdom'
 
-const WP_BASE   = process.env.WP_BASE || 'https://bosonlife.dk/wp-json/wp/v2'
+const WP_BASE   = process.env.WP_BASE || 'https://borsenlive.dk/wp-json/wp/v2'
 const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const DATASET    = 'production'
 const TOKEN      = process.env.SANITY_TOKEN

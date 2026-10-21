@@ -18,7 +18,7 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
-    default: 'Bosonlife — Sammenlign elselskaber og elpriser',
+    default: 'Borsenlive — Sammenlign elselskaber og elpriser',
     template: '%s',
   },
   description: 'Find det billigste elselskab. Vi sammenligner spotpriser, fastpriser og abonnementer hos de danske elselskaber.',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: 'da_DK',
     type: 'website',
     url: BASE + '/',
-    title: 'Bosonlife — Sammenlign elselskaber og elpriser',
+    title: 'Borsenlive — Sammenlign elselskaber og elpriser',
     description: 'Find det billigste elselskab og den bedste elaftale.',
     images: [{ url: `${BASE}/og.png`, width: 1200, height: 630, alt: SITE_DOMAIN }],
   },

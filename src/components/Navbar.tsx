@@ -74,7 +74,7 @@ export async function Navbar({ navItems, logoHref = '/' }: { navItems?: Resolved
         <Link href={logoHref} className="navbar-logo">
           <Image
             src="/logo.webp"
-            alt="Bosonlife"
+            alt="Borsenlive"
             height={36}
             width={200}
             style={{ height: '36px', width: 'auto', display: 'block' }}

@@ -1,7 +1,7 @@
 import { defineCliConfig } from 'sanity/cli'
 
 // Lets the Sanity CLI (e.g. `sanity dataset export`) know which project/dataset
-// to target. Set NEXT_PUBLIC_SANITY_PROJECT_ID in .env.local to the bosonlife
+// to target. Set NEXT_PUBLIC_SANITY_PROJECT_ID in .env.local to the borsenlive
 // Sanity project (deliberately no hardcoded fallback).
 export default defineCliConfig({
   api: {

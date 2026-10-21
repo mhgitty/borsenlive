@@ -1,6 +1,6 @@
 import Script from 'next/script'
 
-// Measurement ID — set NEXT_PUBLIC_GA_ID to bosonlife's GA4 property. Nothing loads without it.
+// Measurement ID — set NEXT_PUBLIC_GA_ID to borsenlive's GA4 property. Nothing loads without it.
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
 
 /**

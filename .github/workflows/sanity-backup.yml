@@ -4,15 +4,15 @@ name: Sanity backup
 # schedule and stores it as a downloadable workflow artifact.
 #
 # Setup (one-time):
-#   1. In sanity.io/manage → bosonlife project → API → Tokens, create a token with
+#   1. In sanity.io/manage → borsenlive project → API → Tokens, create a token with
 #      "Viewer" (read) permission. Copy it.
 #   2. In GitHub → repo → Settings → Secrets and variables → Actions → New
 #      repository secret, name it SANITY_AUTH_TOKEN and paste the token.
-#   3. Under Variables, add SANITY_PROJECT_ID with the bosonlife Sanity project id.
+#   3. Under Variables, add SANITY_PROJECT_ID with the borsenlive Sanity project id.
 #   4. (Optional) Adjust the cron schedule below.
 #
 # Restore a backup: download the artifact, then run
-#   npx sanity dataset import ./bosonlife-production-YYYY-MM-DD.tar.gz production --missing
+#   npx sanity dataset import ./borsenlive-production-YYYY-MM-DD.tar.gz production --missing
 # (use --replace instead of --missing to overwrite existing documents).
 
 on:
@@ -57,7 +57,7 @@ jobs:
         run: |
           mkdir -p backups
           STAMP="$(date -u +'%Y-%m-%d')"
-          npx sanity dataset export production "backups/bosonlife-production-${STAMP}.tar.gz"
+          npx sanity dataset export production "backups/borsenlive-production-${STAMP}.tar.gz"
           ls -lh backups/
 
       - name: Upload backup artifact
