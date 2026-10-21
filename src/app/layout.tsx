@@ -5,6 +5,7 @@ import { AdminBar } from '@/components/AdminBar'
 import { PreviewBanner } from '@/components/PreviewBanner'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { PromoPopup } from '@/components/elcompare/PromoPopup'
+import { PlacementTagger } from '@/components/PlacementTagger'
 import { getSiteSettings } from '@/lib/sanity'
 import './globals.css'
 import { BASE, SITE_DOMAIN } from '@/lib/site'
@@ -57,6 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AdminBar />
         {children}
         {settings?.showPromoPopup && <PromoPopup />}
+        <PlacementTagger />
         <GoogleAnalytics />
       </body>
     </html>
