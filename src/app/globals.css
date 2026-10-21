@@ -428,3 +428,5 @@ a[rel~="sponsored"] { transition: background .15s, box-shadow .15s; }
 /* Rich intro paragraphs (rendered inside a <p>) */
 .intro-p { display: block; }
 .intro-p + .intro-p { margin-top: .75em; }
+.intro-more { font: inherit; font-size: .92em; font-weight: 600; color: var(--brand-dark); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brand-300); white-space: nowrap; }
+.intro-more:hover { color: var(--ink); }

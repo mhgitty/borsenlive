@@ -90,7 +90,7 @@ export async function ReviewHero({ es, author, slug }: Props) {
             </div>
             <h1 className={styles.title}>{title}</h1>
             {x['kort om'] ? <p className={styles.blurb}>{replaceDateVars(x['kort om'])}</p>
-              : es.intro?.length ? <p className={styles.blurb}><RichIntro value={es.intro} /></p>
+              : es.intro?.length ? <p className={styles.blurb}><RichIntro value={es.intro} limit={60} /></p>
               : blurb && <p className={styles.blurb}>{replaceDateVars(blurb)}</p>}
 
             {facts.length > 0 && (

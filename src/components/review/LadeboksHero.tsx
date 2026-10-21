@@ -73,7 +73,7 @@ export async function LadeboksHero({ path, title, intro, author, factChecker, up
             </div>
             <h1 className={styles.title}>{replaceDateVars(title)}</h1>
             {hasIntro && (
-              <p className={styles.blurb}>{typeof intro === 'string' ? replaceDateVars(intro) : <RichIntro value={intro} />}</p>
+              <p className={styles.blurb}><RichIntro value={typeof intro === 'string' ? replaceDateVars(intro) : intro} limit={60} /></p>
             )}
             <ul className={styles.facts}>
               {facts.map((f) => <li key={f.text}><Icon name={f.icon} size={16} color="var(--brand)" />{f.text}</li>)}
