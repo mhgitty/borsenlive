@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { JsonLd } from '@/components/JsonLd'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { Icon } from '@/components/Icon'
 import { getAuthorBySlug, getPostsByAuthor, getAuthorPaths } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
@@ -183,7 +183,7 @@ export default async function AuthorPage({ params }: Props) {
       {author.body && (
         <div className="article-layout">
           <article className="article-content">
-            <PortableTextRenderer value={author.body} />
+            <RichBody value={author.body} />
           </article>
         </div>
       )}

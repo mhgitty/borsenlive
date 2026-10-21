@@ -15,7 +15,7 @@ function resolveEditUrl(pathname: string): string | null {
   // Singletons
   if (p === '/')    return '/studio/structure/homepage'
 
-  // Elselskab review  /elselskaber/[slug]
+  // Elselskab review  /elselskaber-i-danmark/[slug]
   const esMatch = p.match(/^\/elselskaber\/([^/]+)$/)
   if (esMatch) return `${s}/type=elselskab,slug.current=="${esMatch[1]}"/`
 

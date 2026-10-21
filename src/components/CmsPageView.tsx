@@ -1,7 +1,7 @@
 import { HeroSection } from '@/components/HeroSection'
 import { AuthorBio } from '@/components/AuthorBio'
 import { ComparisonTable } from '@/components/ComparisonTable'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -28,7 +28,7 @@ interface Props {
 
 /**
  * Renders a CMS `page` document exactly like the catch-all route does.
- * Extracted so specific routes (e.g. /elselskaber/[slug]) can fall back to a
+ * Extracted so specific routes (e.g. /elselskaber-i-danmark/[slug]) can fall back to a
  * real CMS page living at the same path when no more-specific record matches.
  */
 export function CmsPageView({ page, settings, slug, homeHref, lang, canonical, afterHero }: Props) {
@@ -112,7 +112,7 @@ export function CmsPageView({ page, settings, slug, homeHref, lang, canonical, a
         <div className="article-layout">
           <article className="article-content">
             <MobileToc body={page.body} />
-            <PortableTextRenderer value={page.body} />
+            <RichBody value={page.body} />
           </article>
           <aside className="toc-sidebar">
             <TableOfContents body={page.body} />

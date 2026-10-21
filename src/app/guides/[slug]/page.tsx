@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { AuthorBio } from '@/components/AuthorBio'
 import { ComparisonTable } from '@/components/ComparisonTable'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -104,7 +104,7 @@ export default async function CasinoGuidePage({ params }: Props) {
         <div className="article-layout">
           <article className="article-content">
             <MobileToc body={guide.body} />
-            <PortableTextRenderer value={guide.body} />
+            <RichBody value={guide.body} />
           </article>
           <aside className="toc-sidebar">
             <TableOfContents body={guide.body} />

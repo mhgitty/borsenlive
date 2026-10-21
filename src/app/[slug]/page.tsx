@@ -5,7 +5,7 @@ import { HeroSection } from '@/components/HeroSection'
 import { AuthorBar } from '@/components/AuthorBar'
 import { AuthorBio } from '@/components/AuthorBio'
 import { ComparisonTable } from '@/components/ComparisonTable'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { AuthorMeta } from '@/components/AuthorMeta'
@@ -155,7 +155,7 @@ export default async function SlugPage({ params }: Props) {
         <div className="article-layout">
           <article className="article-content">
             {post.body && <MobileToc body={post.body} />}
-            {post.body && <PortableTextRenderer value={post.body} posts={latestPosts} />}
+            {post.body && <RichBody value={post.body} posts={latestPosts} />}
             {author && <AuthorBio author={author} />}
           </article>
           {post.body && (
@@ -240,7 +240,7 @@ export default async function SlugPage({ params }: Props) {
         <div className="article-layout">
           <article className="article-content">
             <MobileToc body={page.body} />
-            <PortableTextRenderer value={page.body} />
+            <RichBody value={page.body} />
           </article>
           <aside className="toc-sidebar">
             <TableOfContents body={page.body} />

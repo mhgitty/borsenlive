@@ -1,0 +1,37 @@
+/* Port of elpris-chart/css/elpris-prisudvikling.css, site tokens */
+.wrapper { margin: 24px auto; }
+.cards { display: flex; flex-wrap: wrap; gap: 16px; }
+.card {
+  flex: 1 1 calc(25% - 16px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-faint);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.text { display: flex; flex-direction: column; font-weight: 700; font-size: 14px; color: var(--text); }
+.pct { font-size: 19px; font-weight: 800; font-family: var(--font-display); }
+.up { color: #c0392b; }
+.down { color: var(--green); }
+.diff { font-size: 14px; color: var(--text-muted); margin-top: 3px; font-weight: 400; }
+.icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconUp { background: #d33131; }
+.iconDown { background: var(--green); transform: rotate(90deg); }
+
+@media (max-width: 639px) {
+  .cards { flex-direction: column; gap: 8px; }
+  .card { flex: 1 1 100%; }
+}

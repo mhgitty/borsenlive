@@ -1,0 +1,40 @@
+/* Port of elpris-chart/css/elpris-cards.css, site tokens */
+.wrapper { margin: 24px 0; }
+.date { margin-bottom: 12px; font-weight: 600; color: var(--text); }
+.cards { display: flex; flex-wrap: wrap; gap: 16px; }
+.card {
+  flex: 1 1 200px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-faint);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.zone {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+}
+.city { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+.spot, .total { font-size: 13.5px; font-weight: 700; }
+.spot { color: var(--text-muted); }
+.total { color: var(--text); }
+
+@media (max-width: 759px) {
+  .cards { gap: 8px; }
+  .card { flex: 1 1 100%; }
+  .zone { width: 60px; height: 60px; font-size: 17px; }
+  .spot, .total { font-size: 16px; }
+}

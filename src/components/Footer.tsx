@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getSiteSettings } from '@/lib/sanity'
 import { resolveUrl } from './Navbar'
+import { replaceDateVars } from '@/lib/dateVars'
 import { SocialLinks, type SocialLinkData } from './SocialLinks'
 
 const DEFAULT_COLUMNS = [
@@ -16,7 +17,7 @@ const DEFAULT_COLUMNS = [
   {
     title: 'Sammenlign',
     items: [
-      { label: 'Alle elselskaber', url: '/elselskaber/' },
+      { label: 'Alle elselskaber', url: '/elselskaber-i-danmark/' },
     ],
   },
   {
@@ -60,7 +61,9 @@ export async function Footer({
   const longDisclaimer = longDisclaimerProp ?? settings?.footerLongDisclaimer ?? null
   const mediaLogos   = mediaLogosProp   ?? settings?.footerMediaLogos   ?? []
   const trustIcons   = trustIconsProp   ?? settings?.footerTrustIcons   ?? []
-  const note         = noteProp         ?? settings?.footerNote         ?? `© ${year} Borsenlive.dk`
+  const note         = replaceDateVars(noteProp ?? settings?.footerNote ?? `© ${year} Borsenlive.dk`)
+  const cloudTitle   = settings?.footerLinkCloudTitle ?? null
+  const cloud: { label: string; url: string }[] = settings?.footerLinkCloud ?? []
   const disclaimer   = disclaimerProp   ?? settings?.footerDisclaimer   ?? 'Siden indeholder affiliate-links'
   const bottomNav    = bottomNavProp    ?? settings?.footerBottomNav    ?? []
   const socialLinks  = socialLinksProp  ?? settings?.socialLinks        ?? null
@@ -161,6 +164,24 @@ export async function Footer({
           </div>
         )}
       </div>
+
+      {cloud.length > 0 && (
+        <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '0 24px 40px' }}>
+          {cloudTitle && (
+            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '14px' }}>
+              {cloudTitle}
+            </div>
+          )}
+          <p style={{ fontSize: '12.5px', lineHeight: 1.9, color: 'var(--text-faint)', margin: 0 }}>
+            {cloud.map((l, i) => (
+              <span key={l.url + i}>
+                <Link href={l.url || '/'} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{l.label}</Link>
+                {i < cloud.length - 1 ? ', ' : ''}
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
 
       {/* ── Divider ── */}
       <div style={{ borderTop: '1px solid var(--border)' }} />

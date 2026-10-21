@@ -39,5 +39,5 @@ export function kwhPriceLabel(a: { priceType?: string; markup?: number | null; f
 
 export function elselskabHref(slug?: string | { current?: string } | null): string {
   const s = typeof slug === 'string' ? slug : slug?.current
-  return s ? `/elselskaber/${s}/` : '/elselskaber/'
+  return s ? `/elselskaber-i-danmark/${s}/` : '/elselskaber-i-danmark/'
 }

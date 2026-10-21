@@ -6,7 +6,7 @@ import { Icon } from './Icon'
 
 const DEFAULT_NAV = [
   { label: 'Forside',     url: '/',             isHighlighted: false, children: [] },
-  { label: 'Elselskaber', url: '/elselskaber/', isHighlighted: false, children: [] },
+  { label: 'Elselskaber', url: '/elselskaber-i-danmark/', isHighlighted: false, children: [] },
   { label: 'Guides',      url: '/guides/',      isHighlighted: false, children: [] },
   { label: 'Nyheder',     url: '/nyheder/',     isHighlighted: false, children: [] },
 ]
@@ -19,7 +19,7 @@ export function resolveUrl(item: {
     const segments = [item.pageParent4Slug, item.pageParent3Slug, item.pageParent2Slug, item.pageParentSlug, item.pageSlug].filter(Boolean)
     return `/${segments.join('/')}/`
   }
-  if (item.elselskabSlug) return `/elselskaber/${item.elselskabSlug}/`
+  if (item.elselskabSlug) return `/elselskaber-i-danmark/${item.elselskabSlug}/`
   if (item.postSlug) return `/${item.postSlug}/`
   if (item.guideSlug) return `/guides/${item.guideSlug}/`
   return item.url || '/'

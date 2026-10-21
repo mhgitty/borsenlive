@@ -50,7 +50,7 @@ export const previewAction: DocumentActionComponent = (
       if (slug) url = `${BASE}/${ancestorPath}${slug}/`
       break
     case 'elselskab':
-      url = slug ? `${BASE}/elselskaber/${slug}/` : `${BASE}/elselskaber/`
+      url = slug ? `${BASE}/elselskaber-i-danmark/${slug}/` : `${BASE}/elselskaber-i-danmark/`
       break
     case 'guide':
       url = slug ? `${BASE}/guides/${slug}/` : `${BASE}/guides/`

@@ -3,7 +3,7 @@ import { bodyField, introField, relatedPagesFields } from './page'
 
 /**
  * Elselskab — an electricity company with its own review page at
- * /elselskaber/[slug]/. Products/prices live in separate `elaftale` documents
+ * /elselskaber-i-danmark/[slug]/. Products/prices live in separate `elaftale` documents
  * that reference the company, so one company can have several agreements.
  */
 export const elselskabType = defineType({
@@ -44,7 +44,7 @@ export const elselskabType = defineType({
       type: 'slug',
       group: 'info',
       options: { source: 'name' },
-      description: 'Bruges i URL: /elselskaber/[slug]/',
+      description: 'Bruges i URL: /elselskaber-i-danmark/[slug]/',
       validation: (r) => r.required(),
     }),
     defineField({

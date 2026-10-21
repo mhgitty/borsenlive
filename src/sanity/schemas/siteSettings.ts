@@ -36,7 +36,7 @@ const linkFields = [
     name: 'url',
     title: 'URL (custom / external)',
     type: 'string',
-    description: 'Only used if you don\'t select a reference above. E.g. /elselskaber/ or https://...',
+    description: 'Only used if you don\'t select a reference above. E.g. /elselskaber-i-danmark/ or https://...',
   }),
 ]
 
@@ -52,7 +52,7 @@ const linkPreview = {
   },
   prepare({ title, pageRef, elselskabRef, postRef, guideRef, url }: any) {
     const resolved = pageRef ? `/${pageRef}/`
-      : elselskabRef ? `/elselskaber/${elselskabRef}/`
+      : elselskabRef ? `/elselskaber-i-danmark/${elselskabRef}/`
       : postRef ? `/${postRef}/`
       : guideRef ? `/guides/${guideRef}/`
       : url
@@ -124,7 +124,7 @@ const navItemFields = [
   },
   prepare({ title, pageRef, elselskabRef, postRef, guideRef, url }: any) {
     const resolved = pageRef ? `/${pageRef}/`
-      : elselskabRef ? `/elselskaber/${elselskabRef}/`
+      : elselskabRef ? `/elselskaber-i-danmark/${elselskabRef}/`
       : postRef ? `/${postRef}/`
       : guideRef ? `/guides/${guideRef}/`
       : url
@@ -176,6 +176,14 @@ export const siteSettingsType = defineType({
       initialValue: 'Andre sider du måske kan lide',
     }),
     defineField({
+      name: 'showPromoPopup',
+      title: 'Vis "Månedens tilbud"-popup',
+      type: 'boolean',
+      group: 'general',
+      initialValue: false,
+      description: 'Viser popup nederst til højre efter 10 sek. med det elselskab, der er markeret med "x" i Promo-kolonnen i Google-arket.',
+    }),
+    defineField({
       name: 'defaultAuthor',
       title: 'Default author',
       type: 'reference',
@@ -208,7 +216,7 @@ export const siteSettingsType = defineType({
           },
           prepare({ title, isHighlighted, pageRef, elselskabRef, postRef, guideRef, url, children }: any) {
             const resolvedUrl = pageRef ? `/${pageRef}/`
-              : elselskabRef ? `/elselskaber/${elselskabRef}/`
+              : elselskabRef ? `/elselskaber-i-danmark/${elselskabRef}/`
               : postRef ? `/${postRef}/`
               : guideRef ? `/guides/${guideRef}/`
               : url
@@ -281,7 +289,7 @@ export const siteSettingsType = defineType({
   },
   prepare({ title, pageRef, elselskabRef, postRef, guideRef, url }: any) {
     const resolved = pageRef ? `/${pageRef}/`
-      : elselskabRef ? `/elselskaber/${elselskabRef}/`
+      : elselskabRef ? `/elselskaber-i-danmark/${elselskabRef}/`
       : postRef ? `/${postRef}/`
       : guideRef ? `/guides/${guideRef}/`
       : url
@@ -299,6 +307,30 @@ export const siteSettingsType = defineType({
         },
       }],
     }),
+    // ── Footer — link cloud (e.g. "elselskaber i din by") ─────────────────────
+    defineField({
+      name: 'footerLinkCloudTitle',
+      title: 'Link cloud heading',
+      type: 'string',
+      group: 'footer',
+    }),
+    defineField({
+      name: 'footerLinkCloud',
+      title: 'Link cloud',
+      type: 'array',
+      group: 'footer',
+      description: 'Comma-separated list of internal links shown under the footer columns (city pages etc.).',
+      of: [{
+        type: 'object',
+        name: 'cloudLink',
+        fields: [
+          defineField({ name: 'label', title: 'Label', type: 'string' }),
+          defineField({ name: 'url', title: 'URL', type: 'string' }),
+        ],
+        preview: { select: { title: 'label', subtitle: 'url' } },
+      }],
+    }),
+
     // ── Footer — disclaimer (long text above trust section) ─────────────────────
     defineField({
       name: 'footerLongDisclaimer',

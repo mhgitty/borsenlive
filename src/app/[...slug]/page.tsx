@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { AuthorBio } from '@/components/AuthorBio'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -127,7 +127,7 @@ export default async function DynamicPage({ params }: Props) {
         <div className="article-layout">
           <article className="article-content">
             <MobileToc body={page.body} />
-            <PortableTextRenderer value={page.body} />
+            <RichBody value={page.body} />
           </article>
           <aside className="toc-sidebar">
             <TableOfContents body={page.body} />

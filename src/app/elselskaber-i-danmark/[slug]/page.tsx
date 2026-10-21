@@ -2,7 +2,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { StickyCtaBar } from '@/components/StickyCtaBar'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!es) return {}
   const title = replaceDateVars(es.metaTitle || `${es.name} anmeldelse — priser, vilkår og erfaringer`)
   const description = replaceDateVars(es.metaDescription || `Læs vores anmeldelse af ${es.name}. Se priser, abonnement, binding og vores samlede vurdering.`)
-  const canonical = `${BASE}/elselskaber/${slug}/`
+  const canonical = `${BASE}/elselskaber-i-danmark/${slug}/`
   const img = es.ogImage?.url ? es.ogImage : es.logo?.url ? es.logo : null
   return {
     title,
@@ -73,7 +73,7 @@ export default async function ElselskabPage({ params }: Props) {
   ])
   if (!es) notFound()
   const author = es.author ?? settings?.defaultAuthor ?? null
-  const canonical = `${BASE}/elselskaber/${slug}/`
+  const canonical = `${BASE}/elselskaber-i-danmark/${slug}/`
   const elaftaler = (es.elaftaler || []) as any[]
   const ctaText = es.ctaText || `Gå til ${es.name}`
 
@@ -84,7 +84,7 @@ export default async function ElselskabPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Forside', item: BASE },
-          { '@type': 'ListItem', position: 2, name: 'Elselskaber', item: `${BASE}/elselskaber/` },
+          { '@type': 'ListItem', position: 2, name: 'Elselskaber', item: `${BASE}/elselskaber-i-danmark/` },
           { '@type': 'ListItem', position: 3, name: es.name, item: canonical },
         ],
       },
@@ -111,7 +111,7 @@ export default async function ElselskabPage({ params }: Props) {
         <div style={{ maxWidth: '1250px', margin: '0 auto' }}>
           <Breadcrumbs crumbs={[
             { label: 'Forside', href: '/' },
-            { label: 'Elselskaber', href: '/elselskaber/' },
+            { label: 'Elselskaber', href: '/elselskaber-i-danmark/' },
             { label: es.name },
           ]} />
 
@@ -208,7 +208,7 @@ export default async function ElselskabPage({ params }: Props) {
       <div className="article-layout">
         <article className="article-content">
           {es.body && <MobileToc body={es.body} />}
-          {es.body && <PortableTextRenderer value={es.body} posts={latestPosts as any} />}
+          {es.body && <RichBody value={es.body} posts={latestPosts as any} />}
         </article>
         {es.body && (
           <aside className="toc-sidebar">

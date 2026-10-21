@@ -4,6 +4,8 @@ import { draftMode } from 'next/headers'
 import { AdminBar } from '@/components/AdminBar'
 import { PreviewBanner } from '@/components/PreviewBanner'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { PromoPopup } from '@/components/elcompare/PromoPopup'
+import { getSiteSettings } from '@/lib/sanity'
 import './globals.css'
 import { BASE, SITE_DOMAIN } from '@/lib/site'
 
@@ -47,12 +49,14 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isPreview } = await draftMode()
+  const settings = await getSiteSettings().catch(() => null)
   return (
     <html lang="da" className={figtree.variable}>
       <body>
         {isPreview && <PreviewBanner />}
         <AdminBar />
         {children}
+        {settings?.showPromoPopup && <PromoPopup />}
         <GoogleAnalytics />
       </body>
     </html>

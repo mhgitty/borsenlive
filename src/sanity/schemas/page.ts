@@ -27,7 +27,7 @@ export const introField = defineField({
           title: 'Link',
           fields: [
             { name: 'href',     type: 'url',     title: 'URL',
-              validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto', 'tel'] }) },
+              validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }) },
             { name: 'blank',    type: 'boolean', title: 'Open in new tab', initialValue: false },
             { name: 'nofollow', type: 'boolean', title: 'Nofollow',        initialValue: false },
           ],
@@ -82,13 +82,82 @@ export const relatedPagesFields = [
   }),
 ]
 
+// Widgets ported from the WordPress plugins (Elselskab Compare + Elpris Chart).
+export const WIDGET_OPTIONS = [
+  { title: '⚡ Sammenligningsliste — alle elselskaber (med filtre)', value: 'elselskabCompare' },
+  { title: '⚡ Sammenligningsliste — ét elselskab', value: 'elselskabBrand' },
+  { title: '🔌 Ladebokse — sammenligning', value: 'ladeboksCompare' },
+  { title: '🔌 Ladebokse — ét brand', value: 'ladeboksBrand' },
+  { title: '🔥 Naturgas — sammenligning', value: 'naturgasCompare' },
+  { title: '📈 Elpris time for time (graf)', value: 'elprisChart' },
+  { title: '📈 Elpris — topkort', value: 'elprisTopkort' },
+  { title: '📈 Elpris — prisudvikling', value: 'elprisPrisudvikling' },
+  { title: '📈 Elpris — dagens tabel', value: 'elprisDag' },
+  { title: '📈 Elpris — lige nu', value: 'elprisNu' },
+  { title: '🏠 Find dit netselskab', value: 'elprisNetselskab' },
+]
+
+const widgetBlock = {
+  type: 'object',
+  name: 'widgetBlock',
+  title: 'Widget (sammenligning / elpris)',
+  fields: [
+    { name: 'widget', title: 'Widget', type: 'string', options: { list: WIDGET_OPTIONS }, validation: (r: any) => r.required() },
+    {
+      name: 'provider', title: 'Elselskab (cta-slug fra arket, fx "dcc")', type: 'string',
+      hidden: ({ parent }: any) => parent?.widget !== 'elselskabBrand',
+    },
+    {
+      name: 'brand', title: 'Brand (Udbyder fra arket, fx "evdk")', type: 'string',
+      hidden: ({ parent }: any) => parent?.widget !== 'ladeboksBrand',
+    },
+    {
+      name: 'area', title: 'Prisområde', type: 'string',
+      options: { list: [{ title: 'Vest (DK1)', value: 'DK1' }, { title: 'Øst (DK2)', value: 'DK2' }], layout: 'radio', direction: 'horizontal' },
+      hidden: ({ parent }: any) => !['elprisChart', 'elprisPrisudvikling'].includes(parent?.widget),
+    },
+    {
+      name: 'adresse', title: 'Adresse', type: 'string',
+      hidden: ({ parent }: any) => parent?.widget !== 'elprisNetselskab',
+    },
+  ],
+  preview: {
+    select: { widget: 'widget', provider: 'provider', brand: 'brand', area: 'area' },
+    prepare({ widget, provider, brand, area }: any) {
+      const opt = WIDGET_OPTIONS.find((o) => o.value === widget)
+      return { title: opt?.title || 'Widget', subtitle: [provider, brand, area].filter(Boolean).join(' · ') || undefined }
+    },
+  },
+}
+
+// Inline live price inside a paragraph (replaces [elpris] / [elpris_month]).
+const elprisInline = {
+  type: 'object',
+  name: 'elprisInline',
+  title: 'Live elpris',
+  fields: [
+    { name: 'provider', title: 'Elselskab (cta-slug)', type: 'string', validation: (r: any) => r.required() },
+    { name: 'kind', title: 'Vis', type: 'string', initialValue: 'kwh', options: { list: [{ title: 'kr./kWh', value: 'kwh' }, { title: 'kr. pr. måned', value: 'month' }], layout: 'radio' } },
+    { name: 'area', title: 'Område', type: 'string', initialValue: 'DK1', options: { list: ['DK1', 'DK2'], layout: 'radio' } },
+    { name: 'decimals', title: 'Decimaler', type: 'number', initialValue: 2 },
+  ],
+  preview: {
+    select: { provider: 'provider', kind: 'kind', area: 'area' },
+    prepare({ provider, kind, area }: any) {
+      return { title: `⚡ ${provider || '?'} ${kind === 'month' ? 'kr./md.' : 'kr./kWh'} (${area || 'DK1'})` }
+    },
+  },
+}
+
 export const bodyField = defineField({
   name: 'body',
   title: 'Content',
   type: 'array',
   of: [
+    widgetBlock,
     {
       type: 'block',
+      of: [elprisInline],
       styles: [
         { title: 'Normal', value: 'normal' },
         { title: 'H2', value: 'h2' },
@@ -107,7 +176,7 @@ export const bodyField = defineField({
             type: 'object',
             title: 'Link',
             fields: [
-              { name: 'href',     type: 'url',     title: 'URL' },
+              { name: 'href',     type: 'url',     title: 'URL', validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }) },
               { name: 'blank',    type: 'boolean', title: 'Open in new tab', initialValue: false },
               { name: 'nofollow', type: 'boolean', title: 'Nofollow (rel="nofollow")', initialValue: false },
             ],
@@ -168,7 +237,7 @@ export const bodyField = defineField({
                   type: 'object',
                   title: 'Link',
                   fields: [
-                    { name: 'href', type: 'url', title: 'URL' },
+                    { name: 'href', type: 'url', title: 'URL', validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }) },
                     { name: 'blank', type: 'boolean', title: 'Open in new tab' },
                   ],
                 },
@@ -332,7 +401,7 @@ export const bodyField = defineField({
               annotations: [{
                 name: 'link', type: 'object', title: 'Link',
                 fields: [
-                  { name: 'href', type: 'url', title: 'URL', validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto'] }) },
+                  { name: 'href', type: 'url', title: 'URL', validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto'], allowRelative: true }) },
                   { name: 'blank', type: 'boolean', title: 'Open in new tab', initialValue: false },
                 ],
               }],

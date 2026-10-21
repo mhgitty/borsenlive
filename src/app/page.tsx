@@ -7,7 +7,7 @@ import { RichIntro } from '@/components/RichIntro'
 import { getPosts, getHomepage, getElselskaber } from '@/lib/sanity'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { ElselskabList } from '@/components/ElselskabList'
-import { PortableTextRenderer } from '@/components/PortableTextRenderer'
+import { RichBody } from '@/components/RichBody'
 import { heroButtonsFor } from '@/lib/heroButtons'
 import { replaceDateVars } from '@/lib/dateVars'
 import type { Metadata } from 'next'
@@ -142,7 +142,7 @@ export default async function HomePage() {
             </h2>
             <ElselskabList items={(elselskaber as any[]).slice(0, 10)} />
             <div style={{ textAlign: 'center', marginTop: '18px' }}>
-              <a href="/elselskaber/" style={{ fontSize: '14px', fontWeight: 600, color: 'var(--green)' }}>Se alle elselskaber →</a>
+              <a href="/elselskaber-i-danmark/" style={{ fontSize: '14px', fontWeight: 600, color: 'var(--green)' }}>Se alle elselskaber →</a>
             </div>
           </section>
         )}
@@ -150,7 +150,7 @@ export default async function HomePage() {
         {/* ── Body content from Studio ──────────────────────────────────── */}
         {hp?.body?.length > 0 && (
           <section className="article-content" style={{ marginTop: '40px', maxWidth: '860px' }}>
-            <PortableTextRenderer value={hp.body} posts={posts as any} />
+            <RichBody value={hp.body} posts={posts as any} />
           </section>
         )}
 

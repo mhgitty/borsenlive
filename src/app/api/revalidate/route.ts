@@ -25,13 +25,13 @@ export async function POST(req: NextRequest) {
     if (type === 'post') {
       if (slug) hit(`/${slug}/`)
     } else if (type === 'elselskab') {
-      revalidatePath('/elselskaber/[slug]', 'page')
-      hit('/elselskaber/')
-      if (slug) hit(`/elselskaber/${slug}/`)
+      revalidatePath('/elselskaber-i-danmark/[slug]', 'page')
+      hit('/elselskaber-i-danmark/')
+      if (slug) hit(`/elselskaber-i-danmark/${slug}/`)
     } else if (type === 'elaftale') {
       // Agreements show up on company pages, the archive and any comparison table.
-      revalidatePath('/elselskaber/[slug]', 'page')
-      hit('/elselskaber/')
+      revalidatePath('/elselskaber-i-danmark/[slug]', 'page')
+      hit('/elselskaber-i-danmark/')
     } else if (type === 'guide') {
       revalidatePath('/guides/[slug]', 'page')
       hit('/guides/')

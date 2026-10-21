@@ -233,7 +233,7 @@ export async function getCategories() {
 
 export async function getElselskaber() {
   return client.fetch(
-    `*[_type == "elselskab" && defined(slug.current)] | order(coalesce(score, 0) desc, name asc) {
+    `*[_type == "elselskab" && defined(slug.current)] | order(coalesce(score, 0) desc, lower(name) asc) {
       ${ELSELSKAB_CARD_FIELDS},
       "cheapest": *[_type == "elaftale" && active != false && elselskab._ref == ^._id] | order(coalesce(monthlyFee, 999) asc)[0] { ${ELAFTALE_FIELDS} }
     }`
@@ -291,12 +291,15 @@ export const getSiteSettings = cache(async () => {
       ${headerNavProjection},
       footerTagline,
       relatedPagesTitle,
+      showPromoPopup,
       socialLinks,
       footerColumns[] {
         title,
         items[] { label, url, ${navSlugFields} }
       },
       footerLongDisclaimer,
+      footerLinkCloudTitle,
+      footerLinkCloud[] { label, url },
       footerMediaLogos[] { alt, url, "imageUrl": image.asset->url },
       footerTrustIcons[] { alt, url, "imageUrl": image.asset->url },
       footerNote,
@@ -361,7 +364,7 @@ export function relatedItemHref(item: RelatedItem): string {
     case 'guide':
       return `/guides/${slug}/`
     case 'elselskab':
-      return `/elselskaber/${slug}/`
+      return `/elselskaber-i-danmark/${slug}/`
     case 'post':
       return `/${slug}/`
     default:

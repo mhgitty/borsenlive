@@ -22,7 +22,7 @@ type Post = {
   category?: { name: string; emoji?: string; slug: { current: string } }
 }
 
-export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: Post[] }) {
+export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[]; posts?: Post[]; extraTypes?: Record<string, (props: any) => any> }) {
   const pid = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? ''
 
   // First occurrence _key of each block type — used to give hero "Quick links"
@@ -172,6 +172,7 @@ export function PortableTextRenderer({ value, posts }: { value: any[]; posts?: P
       howToBlock: ({ value }: any) => withAnchor('howToBlock', value._key, <HowToBlock value={value} />),
       latestPostsBlock: ({ value: blockValue }: any) =>
         posts ? <LatestPostsBlock value={blockValue} posts={posts} /> : null,
+      ...(extraTypes || {}),
       image: ({ value }: any) => {
         if (!value?.asset?._ref || !pid) return null
         const ref = value.asset._ref.replace('image-', '').replace(/-(\w+)$/, '.$1')

@@ -1,7 +1,14 @@
 const MONTHS_DA = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'januar', 'februar', 'marts', 'april', 'maj', 'juni',
+  'juli', 'august', 'september', 'oktober', 'november', 'december',
 ]
+
+/** Today's date parts in Copenhagen (servers run in UTC). */
+function nowDk() {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Copenhagen', year: 'numeric', month: 'numeric', day: 'numeric' }).formatToParts(new Date())
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value)
+  return { year: get('year'), month: get('month') - 1, day: get('day') }
+}
 
 /**
  * Replace [year], [month], [date] tokens with current Danish date values.
@@ -9,10 +16,10 @@ const MONTHS_DA = [
  */
 export function replaceDateVars(str: string | null | undefined): string {
   if (!str) return str ?? ''
-  const now = new Date()
-  const year  = now.getFullYear().toString()
-  const month = MONTHS_DA[now.getMonth()]
-  const date  = now.getDate().toString()
+  const now = nowDk()
+  const year  = now.year.toString()
+  const month = MONTHS_DA[now.month]
+  const date  = now.day.toString()
   return str
     .replace(/\[year\]/gi,         year)
     .replace(/%%currentyear%%/gi,  year)

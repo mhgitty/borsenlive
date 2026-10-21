@@ -12,7 +12,7 @@ type PageRow = SlugRow & { a1?: string; a2?: string; a3?: string; a4?: string }
 type PostRow = { slug: { current: string }; publishedAt?: string; _updatedAt?: string }
 
 // Static index routes that always exist.
-const INDEX_PATHS = ['/', '/elselskaber/', '/guides/', '/nyheder/']
+const INDEX_PATHS = ['/', '/elselskaber-i-danmark/', '/guides/', '/nyheder/']
 
 export async function sitemapEntries(): Promise<SitemapEntry[]> {
   const [pages, elselskaber, guides, posts, authors] = await Promise.all([
@@ -39,7 +39,7 @@ export async function sitemapEntries(): Promise<SitemapEntry[]> {
       .map((p) => ({ path: `/${[p.a4, p.a3, p.a2, p.a1, p.slug.current].filter(Boolean).join('/')}/`, p }))
       .filter(({ path }) => !indexSet.has(path))
       .map(({ path, p }) => ({ url: `${BASE}${path}`, ...lastMod(p._updatedAt) })),
-    ...elselskaber.map((e) => ({ url: `${BASE}/elselskaber/${e.slug.current}/`, ...lastMod(e._updatedAt) })),
+    ...elselskaber.map((e) => ({ url: `${BASE}/elselskaber-i-danmark/${e.slug.current}/`, ...lastMod(e._updatedAt) })),
     ...guides.map((g) => ({ url: `${BASE}/guides/${g.slug.current}/`, ...lastMod(g._updatedAt) })),
     ...posts.map((p) => ({ url: `${BASE}/${p.slug.current}/`, ...lastMod(p._updatedAt ?? p.publishedAt) })),
     ...authors.map((a) => ({ url: `${BASE}/forfatter/${a.slug.current}/`, ...lastMod(a._updatedAt) })),

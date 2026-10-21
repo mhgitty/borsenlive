@@ -1,0 +1,100 @@
+/* Port of elpris-chart/css/elpris-chart.css, site tokens */
+
+.wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-faint);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  max-width: 900px;
+  margin: 32px auto;
+}
+
+.head { text-align: center; margin-bottom: 18px; }
+.heading { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--text); margin-bottom: 10px; }
+.toggles { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+.seg {
+  display: inline-flex;
+  border: 2px solid var(--border-faint);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+.segBtn {
+  appearance: none;
+  border: 0;
+  padding: 7px 16px;
+  background: transparent;
+  color: var(--green-dark);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.segBtnActive { background: var(--green); color: #fff; }
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.stats div { white-space: nowrap; }
+.stats strong { color: var(--text); font-weight: 700; }
+
+.chartBox { position: relative; }
+.svgV { display: block; width: 100%; height: auto; overflow: visible; }
+.svgH { display: none; width: 100%; height: auto; overflow: visible; }
+.svgV g, .svgH g { cursor: pointer; outline: none; }
+.valueLabel { font-size: 9.5px; fill: #333; font-family: inherit; }
+.axisLabel { font-size: 10px; fill: #444; font-family: inherit; }
+
+.tooltip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(17, 24, 39, 0.92);
+  color: #fff;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.tooltipTitle { font-weight: 700; margin-bottom: 2px; }
+
+.empty { text-align: center; color: var(--text-muted); padding: 24px 0; }
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--text); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.disclaimer { font-size: 12px; color: var(--text-muted); margin: 0; }
+.disclaimer a { color: var(--green); }
+
+@media (max-width: 787px) {
+  .wrapper { padding: 18px 14px; margin: 24px 0; }
+  .toggles { flex-direction: column; align-items: stretch; }
+  .seg { width: 100%; }
+  .segBtn { flex: 1; padding: 9px 16px; }
+  .stats { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 16px; }
+  .svgV { display: none; }
+  .svgH { display: block; }
+  .valueLabel { font-size: 9px; }
+  .axisLabel { font-size: 9px; }
+  .bottom { flex-direction: column; text-align: center; }
+  .legend { justify-content: center; }
+}
