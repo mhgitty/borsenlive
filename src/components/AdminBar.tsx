@@ -174,8 +174,8 @@ export function AdminBar() {
       <div title={user?.email ?? ''} style={{
         width: '24px', height: '24px',
         borderRadius: '50%',
-        background: 'rgba(34,197,94,0.25)',
-        border: '1px solid rgba(34,197,94,0.4)',
+        background: 'rgba(46,123,214,0.25)',
+        border: '1px solid rgba(46,123,214,0.4)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '10px',
         fontWeight: 700,

@@ -9,10 +9,10 @@ import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
 import { getPageByPath, getSiteSettings } from '@/lib/sanity'
 import { replaceDateVars } from '@/lib/dateVars'
+import { heroButtonsFor } from '@/lib/heroButtons'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { RelatedPages } from '@/components/RelatedPages'
-import { headingId } from '@/lib/headingId'
 import { BASE, SITE_NAME, LANG } from '@/lib/site'
 
 export const revalidate = 3600
@@ -79,16 +79,7 @@ export default async function DynamicPage({ params }: Props) {
     ],
   }
 
-  const bodyTypes = new Set(((page.body as any[]) || []).map((b: any) => b?._type))
-  const heroButtons: { text: string; targetId: string; variant?: 'solid' | 'outline' }[] = []
-  if (page.showComparisonTable && page.comparisonTable && page.heroCompareButton)
-    heroButtons.push({ text: page.heroCompareButtonText || 'Se alle elaftaler', targetId: 'comparison-list', variant: 'solid' })
-  if (bodyTypes.has('prosConsBlock')) heroButtons.push({ text: 'Fordele & ulemper', targetId: 'pros-cons', variant: 'outline' })
-  if (bodyTypes.has('howToBlock'))    heroButtons.push({ text: 'Sådan gør du',      targetId: 'how-to',    variant: 'outline' })
-  if (bodyTypes.has('faqBlock'))      heroButtons.push({ text: 'FAQ',         targetId: 'faq',       variant: 'outline' })
-  for (const ql of (((page as any).heroQuickLinks as any[]) || [])) {
-    if (ql?.label && ql?.headingText) heroButtons.push({ text: ql.label, targetId: headingId(replaceDateVars(ql.headingText)), variant: 'outline' })
-  }
+  const heroButtons = heroButtonsFor(page)
 
   return (
     <>
@@ -141,8 +132,8 @@ export default async function DynamicPage({ params }: Props) {
         </div>
       )}
 
-      <Footer />
       <RelatedPages docId={page?._id} />
+      <Footer />
 
     </>
   )

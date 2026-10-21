@@ -11,8 +11,7 @@ export function ComparisonJumpButton({ data }: { data: any }) {
   return (
     <div className="section" style={{ paddingTop: '4px', paddingBottom: '0' }}>
       <div style={{
-        fontSize: '11px', fontWeight: 700, letterSpacing: '0.6px',
-        textTransform: 'uppercase', color: 'var(--text-faint)', marginBottom: '8px',
+        fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', marginBottom: '8px',
       }}>
         Genveje
       </div>
@@ -26,7 +25,7 @@ export function ComparisonJumpButton({ data }: { data: any }) {
           fontSize: '14.5px', fontWeight: 700,
           padding: '10.5px 18px', borderRadius: '10px',
           textDecoration: 'none',
-          boxShadow: '0 4px 14px rgba(26,122,60,0.28)',
+          boxShadow: '0 4px 14px rgba(46,123,214,0.28)',
         }}
       >
         {replaceDateVars(text)}

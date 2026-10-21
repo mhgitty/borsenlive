@@ -15,16 +15,16 @@ export function TableBlock({ value }: { value: TableBlockValue }) {
           {title}
         </div>
       )}
-      <div style={{ overflowX: 'auto', borderRadius: '10px', border: '1px solid var(--border)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14.5px', color: 'var(--text-muted)' }}>
+      <div style={{ overflowX: 'auto', borderRadius: 'var(--r-md)', border: '1px solid var(--line)', background: '#fff' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '15px', color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>
           {hasHeaders && (
             <thead>
               <tr>
                 {(headers ?? []).map((h, i) => (
                   <th key={i} style={{
-                    background: 'var(--bg-navbar)', borderBottom: '2px solid var(--border)',
+                    background: 'var(--brand-50)', borderBottom: '1px solid var(--brand-100)',
                     padding: '10px 16px', textAlign: 'left',
-                    fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--text)',
+                    fontWeight: 700, color: 'var(--ink)',
                     whiteSpace: 'nowrap', fontSize: '13.5px',
                   }}>
                     {h}
@@ -35,10 +35,10 @@ export function TableBlock({ value }: { value: TableBlockValue }) {
           )}
           <tbody>
             {(rows ?? []).map((row, ri) => (
-              <tr key={ri} style={{ background: ri % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-raised)' }}>
+              <tr key={ri} style={{ background: '#fff' }}>
                 {(row.cells ?? []).map((cell, ci) => (
                   <td key={ci} style={{
-                    padding: '10px 16px',
+                    padding: '12px 16px',
                     borderBottom: ri < (rows?.length ?? 0) - 1 ? '1px solid var(--border-faint)' : 'none',
                     verticalAlign: 'top', lineHeight: 1.6,
                   }}>

@@ -8,8 +8,8 @@ export function ProsConsBlock({ value }: ProsConsBlockProps) {
     <div style={{ margin: '24px 0' }}>
       {title && <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>{title}</h3>}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-        <div style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '8px', padding: '16px 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>
+        <div style={{ background: 'rgba(46,123,214,0.08)', border: '1px solid rgba(46,123,214,0.2)', borderRadius: '8px', padding: '16px 20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, color: 'var(--green)', marginBottom: '12px' }}>
             <Icon name="check-circle" size={15} color="var(--green)" /> Fordele
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -22,7 +22,7 @@ export function ProsConsBlock({ value }: ProsConsBlockProps) {
           </ul>
         </div>
         <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: '8px', padding: '16px 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, color: '#f87171', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, color: '#f87171', marginBottom: '12px' }}>
             <Icon name="close-circle" size={15} color="#f87171" /> Ulemper
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>

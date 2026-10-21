@@ -73,8 +73,8 @@ export function AuthorBio({ author, compact = false }: AuthorBioProps) {
           width: '150px',
           height: '150px',
           borderRadius: '50%', flexShrink: 0,
-          background: 'rgba(34,197,94,0.12)',
-          border: '2px solid rgba(34,197,94,0.3)',
+          background: 'rgba(46,123,214,0.12)',
+          border: '2px solid rgba(46,123,214,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '52px', fontWeight: 800, color: 'var(--green)',
           fontFamily: 'var(--font-display)',
@@ -86,7 +86,7 @@ export function AuthorBio({ author, compact = false }: AuthorBioProps) {
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0, width: '100%' }}>
         <div style={{ marginBottom: '3px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.7px' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-faint)' }}>
             Skrevet af
           </span>
         </div>

@@ -98,8 +98,8 @@ export default async function CasinoGuidesPage() {
           <AuthorBio author={author} compact />
         </div>
       )}
-      <Footer />
       <RelatedPages docId={page?._id} />
+      <Footer />
 
     </>
   )

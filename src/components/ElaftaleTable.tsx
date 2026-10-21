@@ -31,8 +31,7 @@ export interface Elaftale {
 }
 
 const LABEL: React.CSSProperties = {
-  fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase',
-  letterSpacing: '0.5px', fontWeight: 600, marginBottom: '3px',
+  fontSize: '11px', color: 'var(--text-faint)', fontWeight: 600, marginBottom: '3px',
 }
 const VALUE: React.CSSProperties = { fontSize: '15px', fontWeight: 700, color: 'var(--text)' }
 

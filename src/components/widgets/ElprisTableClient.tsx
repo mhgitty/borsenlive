@@ -26,23 +26,33 @@ export function ElprisTableClient(props: Props) {
   const pair: Pair = props.mode === 'day' ? props.day : props.hours[hour] ?? { DK1: null, DK2: null }
   const title = props.mode === 'day'
     ? props.title
-    : `Elpriser nu (${pad(hour)}:00 - ${pad((hour + 1) % 24)}:00) for Danmarks 2 elområder:`
+    : `Elpriser nu (${pad(hour)}:00 - ${pad((hour + 1) % 24)}:00) for Danmarks 2 elområder`
 
   if (!pair.DK1 || !pair.DK2 || stale) return <p>Data ikke tilgængelig.</p>
+
+  const row = (label: string, sub: string, p: AreaPrices) => (
+    <tr>
+      <th scope="row"><span className={styles.area}>{label}</span> <span className={styles.areaSub}>{sub}</span></th>
+      <td>{fmtDk(p.spot)} <span className={styles.unit}>kr/kWh</span></td>
+      <td className={styles.totalCell}>{fmtDk(p.total)} <span className={styles.unit}>kr/kWh</span></td>
+    </tr>
+  )
 
   return (
     <div className={styles.wrapper}>
       <h4 className={styles.title}>{title}</h4>
-      <div className={styles.scroll}>
-        <table className={styles.table}>
-          <thead>
-            <tr><th>Område</th><th>Spotpris</th><th>Totalpris</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>DK1 (Vest):</strong></td><td>{fmtDk(pair.DK1.spot)} kr/kWh</td><td>{fmtDk(pair.DK1.total)} kr/kWh</td></tr>
-            <tr><td><strong>DK2 (Øst):</strong></td><td>{fmtDk(pair.DK2.spot)} kr/kWh</td><td>{fmtDk(pair.DK2.total)} kr/kWh</td></tr>
-          </tbody>
-        </table>
+      <div className={styles.card}>
+        <div className={styles.scroll}>
+          <table className={styles.table}>
+            <thead>
+              <tr><th scope="col">Område</th><th scope="col">Spotpris</th><th scope="col">Totalpris</th></tr>
+            </thead>
+            <tbody>
+              {row('DK1', 'Vest', pair.DK1)}
+              {row('DK2', 'Øst', pair.DK2)}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

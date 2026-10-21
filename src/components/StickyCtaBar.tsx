@@ -109,8 +109,7 @@ export function StickyCtaBar({ url, name, logoUrl, logoAlt, bonus, terms, ctaTex
               fontWeight: 800,
               textDecoration: 'none',
               whiteSpace: 'nowrap',
-              letterSpacing: '0.02em',
-              boxShadow: '0 2px 12px rgba(34,197,94,0.3)',
+              boxShadow: '0 2px 12px rgba(46,123,214,0.3)',
             }}
           >
             {ctaText || 'Se tilbud'}

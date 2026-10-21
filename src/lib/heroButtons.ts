@@ -14,7 +14,11 @@ export function heroButtonsFor(doc: any): HeroButton[] {
     out.push({ text: doc.heroCompareButtonText || 'Se alle elaftaler', targetId: 'comparison-list', variant: 'solid' })
   }
 
-  const types = new Set(((doc?.body as any[]) || []).map((b: any) => b?._type))
+  const body = ((doc?.body as any[]) || [])
+  const types = new Set(body.map((b: any) => b?._type))
+  if (!out.length && body.some((b: any) => b?._type === 'widgetBlock' && b?.widget === 'elselskabCompare')) {
+    out.push({ text: 'Se de billigste elselskaber', targetId: 'comparison-list', variant: 'solid' })
+  }
   if (types.has('prosConsBlock')) out.push({ text: 'Fordele & ulemper', targetId: 'pros-cons', variant: 'outline' })
   if (types.has('howToBlock'))    out.push({ text: 'Sådan gør du',      targetId: 'how-to',    variant: 'outline' })
   if (types.has('faqBlock'))      out.push({ text: 'FAQ',         targetId: 'faq',       variant: 'outline' })

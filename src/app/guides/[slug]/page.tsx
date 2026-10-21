@@ -117,8 +117,8 @@ export default async function CasinoGuidePage({ params }: Props) {
           <AuthorBio author={author} compact />
         </div>
       )}
-      <Footer />
       <RelatedPages docId={guide?._id} />
+      <Footer />
 
     </>
   )

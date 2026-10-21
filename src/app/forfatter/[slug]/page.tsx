@@ -96,7 +96,7 @@ export default async function AuthorPage({ params }: Props) {
               ) : (
                 <div style={{
                   width: '160px', height: '160px', borderRadius: '50%',
-                  background: 'rgba(34,197,94,0.12)', border: '3px solid var(--green)',
+                  background: 'rgba(46,123,214,0.12)', border: '3px solid var(--green)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '60px', fontWeight: 800, color: 'var(--green)',
                   fontFamily: 'var(--font-display)', flexShrink: 0,
@@ -143,7 +143,7 @@ export default async function AuthorPage({ params }: Props) {
               {/* Stats */}
               <div style={{ display: 'flex', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
                 <div style={{ padding: '12px 20px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Artikler</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '2px' }}>Artikler</div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-display)' }}>{posts.length}</div>
                 </div>
               </div>
@@ -218,7 +218,7 @@ export default async function AuthorPage({ params }: Props) {
                   )}
                   <div style={{ padding: '18px', flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {post.category && (
-                      <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--green)' }}>
                         {post.category.emoji} {post.category.name}
                       </span>
                     )}

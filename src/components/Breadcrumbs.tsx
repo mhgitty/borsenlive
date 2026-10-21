@@ -1,30 +1,27 @@
 import Link from 'next/link'
 import { replaceDateVars } from '@/lib/dateVars'
 
-interface Crumb {
-  label: string
-  href?: string
-}
+interface Crumb { label: string; href?: string }
 
 export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
   return (
-    <nav aria-label="Breadcrumb" style={{ fontSize: '13px', color: 'var(--text-faint)', marginBottom: '20px', display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', rowGap: '2px' }}>
-      {crumbs.map((crumb, i) => {
-        const isLast = i === crumbs.length - 1
-        const label = replaceDateVars(crumb.label)
-        return (
-          <span key={i} style={{ display: 'inline-flex', alignItems: 'baseline', whiteSpace: isLast ? 'normal' : 'nowrap' }}>
-            {isLast || !crumb.href ? (
-              <span style={{ color: isLast ? 'var(--text-muted)' : 'var(--text-faint)', wordBreak: 'break-word', overflowWrap: 'anywhere', whiteSpace: 'normal' }}>{label}</span>
-            ) : (
-              <Link href={crumb.href} className="breadcrumb-link">
-                {label}
-              </Link>
-            )}
-            {!isLast && <span style={{ margin: '0 6px', opacity: 0.5, flexShrink: 0 }}>›</span>}
-          </span>
-        )
-      })}
+    <nav aria-label="Brødkrumme">
+      <ol className="breadcrumbs" style={{ listStyle: 'none' }}>
+        {crumbs.map((crumb, i) => {
+          const isLast = i === crumbs.length - 1
+          const label = replaceDateVars(crumb.label)
+          return (
+            <li key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
+              {isLast || !crumb.href
+                ? <span aria-current={isLast ? 'page' : undefined} style={{ color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '60ch' }}>{label}</span>
+                : <Link href={crumb.href} className="breadcrumb-link">{label}</Link>}
+              {!isLast && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" style={{ opacity: .5 }}><path d="m9 6 6 6-6 6" /></svg>
+              )}
+            </li>
+          )
+        })}
+      </ol>
     </nav>
   )
 }

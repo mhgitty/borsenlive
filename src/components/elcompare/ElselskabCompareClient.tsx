@@ -59,7 +59,7 @@ export function ElselskabCompareClient({ providers, raw, showFilters = true }: P
 
           <div className={`${styles.filters} ${filtersOpen ? styles.filtersOpen : ''}`}>
             <div className={`${styles.group} ${styles.groupKwh}`}>
-              <div className={styles.label}>Angiv dit forventede elforbrug</div>
+              <div className={styles.label}>Dit årlige elforbrug</div>
               <div className={styles.sliderRow}>
                 <div className={styles.sliderValue}>
                   <strong>{fmt(annual, 0)}</strong> <span>kWh/år</span>
@@ -119,69 +119,67 @@ export function ElselskabCompareClient({ providers, raw, showFilters = true }: P
         </>
       )}
 
-      <div className={styles.list}>
+      <ol className={styles.list}>
         {rows.map(({ p, price }, i) => (
-          <article key={p.key} className={`${styles.card} ${i === 0 ? styles.cardTop : ''}`}>
-            {p.campaign && <div className={styles.pill}>{p.campaign}</div>}
-            <div className={styles.main}>
-              <div className={styles.colLogo}>
-                <div className={styles.logo}>
-                  {p.logo
-                    // eslint-disable-next-line @next/next/no-img-element
-                    ? <img src={p.logo} alt={p.name} loading="lazy" />
-                    : <span>{p.name}</span>}
-                </div>
-                {p.reviewUrl && <a href={p.reviewUrl} className={styles.reviewLink}>Læs anmeldelse</a>}
-              </div>
+          <li key={p.key} className={`${styles.card} ${showFilters && i === 0 ? styles.cardTop : ''} ${showFilters ? '' : styles.cardPlain}`}>
+            {showFilters ? <div className={styles.rank} aria-label={`Nummer ${i + 1}`}>{i + 1}</div> : <div className={styles.rank} aria-hidden="true" />}
 
-              <div className={styles.colInfo}>
-                <div className={styles.title}>{p.title}</div>
-                <div className={styles.tags}>
-                  <span className={styles.tag}><span className={styles.tagDot} />Pristype: <b>Variabel</b></span>
-                  <span className={styles.tag}><span className={styles.tagDot} />Binding: <b>Ingen</b></span>
-                  {p.intro && <span className={`${styles.tag} ${styles.tagIntro}`}><span className={styles.tagDot} />Introtilbud: <b>Ja</b></span>}
-                </div>
+            <div className={styles.colLogo}>
+              <div className={styles.logo}>
+                {p.logo
+                  // eslint-disable-next-line @next/next/no-img-element
+                  ? <img src={p.logo} alt={p.name} loading="lazy" />
+                  : <span>{p.name}</span>}
               </div>
+              {p.reviewUrl && <a href={p.reviewUrl} className={styles.reviewLink}>Læs anmeldelse</a>}
+            </div>
 
-              <div className={styles.colPrice}>
-                <div className={styles.priceLabel}>Estimeret pris</div>
-                <div className={styles.priceValue}>
-                  <span>{fmt(price.total, 2)}</span> <small>kr./kWh</small>
-                </div>
-                <div className={styles.priceMonth}><b>{fmt(Math.round(price.monthly), 0)}</b> kr. pr. måned</div>
-              </div>
+            <div className={styles.colInfo}>
+              {showFilters && i === 0 && <span className={styles.topBadge}>Billigst lige nu</span>}
+              <div className={styles.title}>{p.title}</div>
+              <div className={styles.company}>{p.name}</div>
+              <ul className={styles.tags}>
+                <li>Variabel pris</li>
+                <li>Ingen binding</li>
+                {p.intro && <li className={styles.tagIntro}>Introtilbud</li>}
+              </ul>
+              {p.campaign && <div className={styles.campaign}>{p.campaign}</div>}
+            </div>
 
-              <div className={styles.colCta}>
-                <a href={`/go/${p.ctaSlug}/`} className={styles.cta} target="_blank" rel="nofollow sponsored noopener">Gå til tilbud</a>
-                <div className={styles.breakdown} tabIndex={0}>
-                  <span className={styles.infoIcon}>i</span>
-                  <span>Hvordan er prisen udregnet?</span>
-                  <div className={styles.tooltip} role="tooltip">
-                    <div className={styles.tooltipTitle}>Sådan er prisen sammensat</div>
-                    <Row label="Rå elpris" v={price.raw} />
-                    <Row label={`kWh-tillæg (${p.name})`} v={price.kwhTillaeg} />
-                    <Row label={`Abonnement (${p.name})`} v={price.aboPerKwh} />
-                    <Row label="Netselskabet" v={price.netselskab} />
-                    <Row label="Energinet" v={price.energinet} />
-                    <Row label="Staten" v={price.staten} />
-                    <div className={styles.tooltipDivider} />
-                    <Row label="Samlet fast tillæg" v={price.staticSum} strong />
-                    <Row label="Samlet pris" v={price.total} strong />
-                    <p className={styles.tooltipNote}>
-                      Prisen er baseret på et årligt forbrug på <strong>{fmt(annual, 0)}</strong> kWh.
-                      Den rå elpris er sidste måneds gennemsnitlige pris fra energidataservice.dk.
-                      Netselskabs- og Energinet-tarifferne er baseret på gældende tariffer (N1 i vest, Radius i øst).
-                    </p>
-                  </div>
+            <div className={styles.colPrice}>
+              <div className={styles.priceValue}>{fmt(price.total, 2)}<small> kr./kWh</small></div>
+              <div className={styles.priceMonth}>ca. {fmt(Math.round(price.monthly), 0)} kr. pr. måned</div>
+              <div className={styles.breakdown} tabIndex={0}>
+                <span className={styles.infoIcon} aria-hidden="true">i</span>
+                <span>Sådan er prisen regnet ud</span>
+                <div className={styles.tooltip} role="tooltip">
+                  <div className={styles.tooltipTitle}>Prisen pr. kWh består af</div>
+                  <Row label="Rå elpris (spot)" v={price.raw} />
+                  <Row label={`Tillæg hos ${p.name}`} v={price.kwhTillaeg} />
+                  <Row label={`Abonnement hos ${p.name}`} v={price.aboPerKwh} />
+                  <Row label="Netselskab" v={price.netselskab} />
+                  <Row label="Energinet" v={price.energinet} />
+                  <Row label="Elafgift (staten)" v={price.staten} />
+                  <div className={styles.tooltipDivider} />
+                  <Row label="Faste tillæg i alt" v={price.staticSum} strong />
+                  <Row label="Samlet pris" v={price.total} strong />
+                  <p className={styles.tooltipNote}>
+                    Beregnet ud fra {fmt(annual, 0)} kWh om året. Den rå elpris er sidste måneds gennemsnit fra Energi Data Service.
+                    Nettariffer: N1 i Vest, Radius i Øst.
+                  </p>
                 </div>
               </div>
             </div>
-          </article>
+
+            <div className={styles.colCta}>
+              <a href={`/go/${p.ctaSlug}/`} className={styles.cta} target="_blank" rel="nofollow sponsored noopener">Gå til tilbud</a>
+            </div>
+          </li>
         ))}
         {rows.length === 0 && (
-          <p className={styles.empty}>{providers.length ? 'Ingen elselskaber matcher dine filtre.' : 'Der er ingen produkter at vise lige nu.'}</p>
+          <li className={styles.empty}>{providers.length ? 'Ingen elselskaber har introtilbud lige nu. Slå filteret fra for at se alle.' : 'Priserne kunne ikke hentes lige nu. Prøv igen om lidt.'}</li>
         )}
-      </div>
+      </ol>
     </div>
   )
 }

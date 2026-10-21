@@ -24,7 +24,7 @@ export async function ElprisTable({ type = 'day' }: { type?: 'day' | 'now' }) {
     const s = avgSpot(recs)
     return s == null ? null : { spot: round2(s), total: round2(totalFromSpot(s)) }
   }
-  return <ElprisTableClient mode="day" ymd={ymd} title={`Elpriser i dag (${formatDkDate(ymd)}) for Danmarks 2 elområder:`} day={{ DK1: day(r1), DK2: day(r2) }} />
+  return <ElprisTableClient mode="day" ymd={ymd} title={`Elpriser i dag (${formatDkDate(ymd)}) for Danmarks 2 elområder`} day={{ DK1: day(r1), DK2: day(r2) }} />
 }
 
 /** [elpris_dag] */

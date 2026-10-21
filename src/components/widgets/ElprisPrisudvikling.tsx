@@ -28,16 +28,16 @@ export async function ElprisPrisudvikling({ area }: { area?: string }) {
           const down = d.diffPct < 0
           return (
             <div key={label} className={styles.card}>
-              <div className={styles.text}>
-                <span>{label}</span>
-                <div className={`${styles.pct} ${down ? styles.down : styles.up}`}>{d.diffPct > 0 ? '+' : ''}{phpNum(d.diffPct)} %</div>
-                <div className={styles.diff}>{d.diffKr > 0 ? '+' : ''}{phpNum(d.diffKr)} kr/kWh</div>
+              <div className={styles.cardHead}>
+                <span className={styles.label}>{label}</span>
+                <span className={`${styles.icon} ${down ? styles.iconDown : styles.iconUp}`} role="img" aria-label={down ? 'Faldende' : 'Stigende'}>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
+                </span>
               </div>
-              <div className={`${styles.icon} ${down ? styles.iconDown : styles.iconUp}`} aria-label={down ? 'Faldende' : 'Stigende'}>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M7 17 17 7M9 7h8v8" />
-                </svg>
-              </div>
+              <div className={`${styles.pct} ${down ? styles.down : styles.up}`}>{d.diffPct > 0 ? '+' : ''}{phpNum(d.diffPct)} %</div>
+              <div className={styles.diff}>{d.diffKr > 0 ? '+' : ''}{phpNum(d.diffKr)} kr/kWh</div>
             </div>
           )
         })}

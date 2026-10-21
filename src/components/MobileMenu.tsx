@@ -74,12 +74,16 @@ export function MobileMenu({ items }: { items: NavNode[] }) {
         </span>
       </button>
 
-      {open && <div className="mobile-menu-backdrop" onClick={() => setOpen(false)} />}
+      <div className={`mobile-menu-backdrop${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
 
-      <nav className={`mobile-menu-drawer${open ? ' open' : ''}`} aria-hidden={!open}>
+      <nav className={`mobile-menu-drawer${open ? ' open' : ''}`} aria-hidden={!open} aria-label="Menu">
+        <button className="mobile-menu-btn mobile-menu-close" style={{ display: 'flex' }} onClick={() => setOpen(false)} aria-label="Luk menu">
+          <span className="burger-icon open"><span /><span /><span /></span>
+        </button>
         {items.map((item) => (
           <MobileNavNode key={item.href + item.label} node={item} depth={0} onNavigate={() => setOpen(false)} />
         ))}
+        <Link href="/#comparison-list" className="btn btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Sammenlign elpriser</Link>
       </nav>
     </>
   )

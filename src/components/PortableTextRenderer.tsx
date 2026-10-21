@@ -46,7 +46,7 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
       h2: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h2 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.03em', margin: '36px 0 14px', scrollMarginTop: '72px' }}>
+          <h2 id={headingId(text)} style={{ fontSize: 'clamp(22px, 2.4vw, 28px)', fontWeight: 750 as any, color: 'var(--ink)', letterSpacing: '-0.025em', lineHeight: 1.2, margin: '48px 0 14px', scrollMarginTop: '96px' }}>
             {children}
           </h2>
         )
@@ -54,7 +54,7 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
       h3: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h3 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.02em', margin: '28px 0 10px', scrollMarginTop: '72px' }}>
+          <h3 id={headingId(text)} style={{ fontSize: '20px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.015em', lineHeight: 1.3, margin: '32px 0 10px', scrollMarginTop: '96px' }}>
             {children}
           </h3>
         )
@@ -62,13 +62,13 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
       h4: ({ children, value: v }: any) => {
         const text = v?.children?.map((c: any) => c.text).join('') || ''
         return (
-          <h4 id={headingId(text)} style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 600, color: 'var(--text)', margin: '20px 0 8px', scrollMarginTop: '72px' }}>
+          <h4 id={headingId(text)} style={{ fontSize: '17px', fontWeight: 700, color: 'var(--ink)', margin: '24px 0 8px', scrollMarginTop: '96px' }}>
             {children}
           </h4>
         )
       },
       normal: ({ children }: any) => (
-        <p style={{ fontSize: '15.5px', color: 'var(--text-muted)', lineHeight: 1.75, marginBottom: '18px' }}>
+        <p style={{ fontSize: '17px', color: 'var(--text)', lineHeight: 1.7, marginBottom: '18px', maxWidth: '72ch' }}>
           {children}
         </p>
       ),
@@ -76,8 +76,8 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
         <blockquote style={{ margin: '28px 0', padding: 0, border: 'none' }}>
           <div style={{
             position: 'relative',
-            background: 'rgba(26,122,60,0.06)',
-            border: '1px solid rgba(26,122,60,0.18)',
+            background: 'rgba(46,123,214,0.06)',
+            border: '1px solid rgba(46,123,214,0.18)',
             borderRadius: '10px',
             padding: '20px 22px 18px 52px',
           }}>
@@ -105,13 +105,13 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
       ),
     },
     marks: {
-      strong: ({ children }: any) => <strong style={{ color: 'var(--text)', fontWeight: 600 }}>{children}</strong>,
+      strong: ({ children }: any) => <strong style={{ color: 'var(--ink)', fontWeight: 700 }}>{children}</strong>,
       em: ({ children }: any) => <em>{children}</em>,
       link: ({ value, children }: any) => {
         const rel = ['noopener', 'noreferrer', value.nofollow ? 'nofollow' : ''].filter(Boolean).join(' ')
         return (
           <a href={value.href} target={value.blank ? '_blank' : '_self'} rel={rel}
-            style={{ color: 'var(--green)', textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+            style={{ color: 'var(--brand-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', textDecorationColor: 'var(--brand-300)' }}>
             {children}
           </a>
         )
@@ -123,13 +123,13 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
     },
     listItem: {
       bullet: ({ children }: any) => (
-        <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-          <Icon name="alt-arrow-right" size={16} color="var(--green)" style={{ flexShrink: 0, marginTop: '4px' }} />
+        <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '17px', color: 'var(--text)', lineHeight: 1.6, maxWidth: '72ch' }}>
+          <span aria-hidden="true" style={{ flexShrink: 0, width: '6px', height: '6px', borderRadius: '50%', background: 'var(--brand)', marginTop: '11px' }} />
           <span>{children}</span>
         </li>
       ),
       number: ({ children }: any) => (
-        <li style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.65 }}>{children}</li>
+        <li style={{ fontSize: '17px', color: 'var(--text)', lineHeight: 1.6 }}>{children}</li>
       ),
     },
     types: {
@@ -145,7 +145,7 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
                 display: 'block',
                 width: '100%',
                 padding: '15px 24px',
-                background: 'linear-gradient(135deg, var(--green) 0%, #16a34a 100%)',
+                background: 'var(--brand)',
                 color: '#fff',
                 fontWeight: 700,
                 fontSize: '16px',
@@ -153,7 +153,7 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
                 borderRadius: '12px',
                 textDecoration: 'none',
                 letterSpacing: '-0.01em',
-                boxShadow: '0 4px 14px rgba(34,197,94,0.25)',
+                
                 transition: 'opacity .15s',
               }}
             >
@@ -180,7 +180,7 @@ export function PortableTextRenderer({ value, posts, extraTypes }: { value: any[
           <img
             src={`https://cdn.sanity.io/images/${pid}/${process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'}/${ref}`}
             alt={value.alt || ''}
-            style={{ width: '100%', borderRadius: '8px', margin: '24px 0', display: 'block' }}
+            style={{ width: '100%', borderRadius: '14px', margin: '28px 0', display: 'block', border: '1px solid var(--line)' }}
           />
         )
       },

@@ -17,18 +17,19 @@ export async function ElprisTopkort() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.date}>{formatDkDate(ymd)}</div>
+      <div className={styles.date}>Gennemsnitlig elpris i dag · {formatDkDate(ymd)}</div>
       <div className={styles.cards}>
         {cards.map((z) => {
           const p = prices[z.zone]!
           return (
             <div key={z.city} className={styles.card}>
-              <div className={styles.zone}>{z.zone}</div>
-              <div>
-                <div className={styles.city}>{z.city}</div>
-                <div className={styles.spot}>Spotpris: {fmtDk(p.spot)} kr/kWh</div>
-                <div className={styles.total}>Totalpris: {fmtDk(p.total)} kr/kWh</div>
+              <div className={styles.cardHead}>
+                <span className={styles.city}>{z.city}</span>
+                <span className={styles.zone}>{z.zone}</span>
               </div>
+              <div className={styles.label}>Totalpris</div>
+              <div className={styles.total}>{fmtDk(p.total)}<span className={styles.unit}> kr/kWh</span></div>
+              <div className={styles.spot}>Spotpris <span>{fmtDk(p.spot)} kr/kWh</span></div>
             </div>
           )
         })}

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { getSiteSettings } from '@/lib/sanity'
 import { MobileMenu } from './MobileMenu'
 import { Icon } from './Icon'
+import { PriceTicker } from './site/PriceTicker'
 
 const DEFAULT_NAV = [
   { label: 'Forside',     url: '/',             isHighlighted: false, children: [] },
@@ -63,62 +64,55 @@ export async function Navbar({ navItems, logoHref = '/' }: { navItems?: Resolved
       href: resolveUrl(item),
       isHighlighted: item.isHighlighted ?? false,
       icon: item.icon ?? undefined,
-      children: (item.children || []).map(mapNode),
+      children: (item.children || []).map(mapNode).filter((c: any, i: number, arr: any[]) => arr.findIndex((x: any) => x.href === c.href) === i),
     })
     nav = raw.map(mapNode)
   }
 
   return (
-    <header className="navbar">
-      <div className="navbar-inner">
-        <Link href={logoHref} className="navbar-logo">
-          <Image
-            src="/logo.webp"
-            alt="Borsenlive"
-            height={36}
-            width={200}
-            style={{ height: '36px', width: 'auto', display: 'block' }}
-            priority
-          />
-        </Link>
+    <>
+      <PriceTicker />
+      <header className="site-header">
+        <div className="navbar">
+          <div className="navbar-inner">
+            <Link href={logoHref} className="navbar-logo" aria-label="Borsenlive – til forsiden">
+              <Image src="/logo.webp" alt="Borsenlive" width={300} height={69} priority style={{ height: '30px', width: 'auto', display: 'block' }} />
+            </Link>
 
-        {/* Desktop nav */}
-        <nav className="navbar-nav">
-          {nav.map((item) => {
-            const inner = (
-              <>
-                {item.icon && <Icon name={item.icon} size={16} style={{ flexShrink: 0, opacity: 0.8 }} />}
-                {item.label}
-              </>
-            )
-            if (!item.children.length) {
-              return (
-                <Link
-                  key={item.href + item.label}
-                  href={item.href}
-                  className={`nav-link${item.isHighlighted ? ' nav-link-cta' : ''}`}
-                >
-                  {inner}
-                </Link>
-              )
-            }
-            return (
-              <div key={item.href + item.label} className="nav-item-dropdown">
-                <Link href={item.href} className={`nav-link nav-link-has-children${item.isHighlighted ? ' nav-link-cta' : ''}`}>
-                  {inner}
-                  <Icon name="alt-arrow-down" size={14} style={{ marginLeft: '2px', flexShrink: 0, opacity: 0.5 }} />
-                </Link>
-                <div className="nav-dropdown">
-                  <NavDropdownTree items={item.children} />
-                </div>
-              </div>
-            )
-          })}
-        </nav>
+            <nav className="navbar-nav" aria-label="Hovedmenu">
+              {nav.map((item) => {
+                if (!item.children.length) {
+                  return (
+                    <Link key={item.href + item.label} href={item.href} className="nav-link">{item.label}</Link>
+                  )
+                }
+                const mega = item.children.length > 10
+                return (
+                  <div key={item.href + item.label} className="nav-item-dropdown">
+                    <Link href={item.href} className="nav-link" aria-haspopup="true">
+                      {item.label}
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true" style={{ opacity: .55 }}><path d="m6 9 6 6 6-6" /></svg>
+                    </Link>
+                    <div className={`nav-dropdown${mega ? ' nav-dropdown--mega' : ''}`}>
+                      {mega && (
+                        <div className="nav-dropdown-head">
+                          <strong>{item.label}</strong>
+                          <Link href={item.href}>Se alle {item.children.length}</Link>
+                        </div>
+                      )}
+                      <NavDropdownTree items={mega ? [...item.children].sort((a, b) => a.label.localeCompare(b.label, 'da')) : item.children} />
+                    </div>
+                  </div>
+                )
+              })}
+            </nav>
 
-        {/* Mobile burger — client component */}
-        <MobileMenu items={nav} />
-      </div>
-    </header>
+            <Link href="/#comparison-list" className="nav-cta">Sammenlign elpriser</Link>
+
+            <MobileMenu items={nav} />
+          </div>
+        </div>
+      </header>
+    </>
   )
 }

@@ -40,7 +40,7 @@ export function ElselskabList({ items }: { items: ElselskabCardData[] }) {
           borderRadius: '12px', overflow: 'hidden', position: 'relative',
         }}>
           {i === 0 && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, background: 'var(--green)', color: '#fff', fontSize: '11px', fontWeight: 700, textAlign: 'center', padding: '3px 0', letterSpacing: '0.5px' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, background: 'var(--green)', color: '#fff', fontSize: '11px', fontWeight: 700, textAlign: 'center', padding: '3px 0' }}>
               ⚡ VORES TOPVALG
             </div>
           )}

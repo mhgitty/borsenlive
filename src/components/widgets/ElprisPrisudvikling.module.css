@@ -1,37 +1,42 @@
-/* Port of elpris-chart/css/elpris-prisudvikling.css, site tokens */
-.wrapper { margin: 24px auto; }
-.cards { display: flex; flex-wrap: wrap; gap: 16px; }
+/* Elpris prisudvikling — four change tiles */
+.wrapper { margin: 28px 0; font-family: var(--font-display); }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .card {
-  flex: 1 1 calc(25% - 16px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 18px;
-  background: var(--bg-raised);
-  border: 1px solid var(--border-faint);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  min-width: 0;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.06);
 }
-.text { display: flex; flex-direction: column; font-weight: 700; font-size: 14px; color: var(--text); }
-.pct { font-size: 19px; font-weight: 800; font-family: var(--font-display); }
-.up { color: #c0392b; }
-.down { color: var(--green); }
-.diff { font-size: 14px; color: var(--text-muted); margin-top: 3px; font-weight: 400; }
+.cardHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.label { font-size: 12.5px; font-weight: 600; line-height: 1.35; color: var(--text-muted); }
+.pct {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+
+  white-space: nowrap;
+}
+.up { color: var(--price-high); }
+.down { color: var(--price-low); }
+.diff { margin-top: 2px; font-size: 13px; color: var(--text-muted); }
 .icon {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  color: #fff;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.iconUp { background: #d33131; }
-.iconDown { background: var(--green); transform: rotate(90deg); }
+.iconUp { color: var(--price-high); background: color-mix(in srgb, var(--price-high) 12%, transparent); }
+.iconDown { color: var(--price-low); background: color-mix(in srgb, var(--price-low) 12%, transparent); }
+.iconDown svg { transform: rotate(90deg); }
 
-@media (max-width: 639px) {
-  .cards { flex-direction: column; gap: 8px; }
-  .card { flex: 1 1 100%; }
+@media (max-width: 759px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .card { padding: 14px; }
+  .pct { font-size: 21px; }
 }

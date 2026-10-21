@@ -13,7 +13,7 @@ interface CalloutBlockProps {
 
 const styles: Record<string, { bg: string; border: string; icon: string; color: string }> = {
   info:    { bg: 'rgba(59,130,246,0.1)', border: 'rgba(59,130,246,0.25)', icon: 'ℹ️', color: '#60a5fa' },
-  tip:     { bg: 'rgba(34,197,94,0.1)',  border: 'rgba(34,197,94,0.25)',  icon: '💡', color: '#4ade80' },
+  tip:     { bg: 'rgba(46,123,214,0.1)',  border: 'rgba(46,123,214,0.25)',  icon: '💡', color: '#4ade80' },
   warning: { bg: 'rgba(234,179,8,0.1)',  border: 'rgba(234,179,8,0.25)',  icon: '⚠️', color: '#fbbf24' },
   quote:   { bg: 'var(--bg-raised)',     border: 'var(--border)',         icon: '',   color: 'var(--text)' },
 }

@@ -142,8 +142,8 @@ export default async function ElselskaberPage() {
         </div>
       )}
 
-      <Footer />
       <RelatedPages docId={page?._id} />
+      <Footer />
     </>
   )
 }

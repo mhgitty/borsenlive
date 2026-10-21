@@ -33,8 +33,8 @@ export function AuthorMeta({ author, lastUpdated, publishedAt }: AuthorMetaProps
       ) : (
         <div style={{
           width: '36px', height: '36px', borderRadius: '50%',
-          background: 'rgba(34,197,94,0.12)',
-          border: '1px solid rgba(34,197,94,0.3)',
+          background: 'rgba(46,123,214,0.12)',
+          border: '1px solid rgba(46,123,214,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '14px', fontWeight: 700, color: 'var(--green)', flexShrink: 0,
         }}>

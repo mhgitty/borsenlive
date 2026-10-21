@@ -63,41 +63,27 @@ export function TableOfContents({ body }: { body: any[] }) {
   if (!headings.length) return null
 
   return (
-    <div style={{
-      background: 'var(--bg-card)',
-      border: '1px solid var(--border)',
-      borderRadius: '12px',
-      padding: '20px 24px',
-      marginBottom: '32px',
-    }}>
-      <h4 style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '11px',
-        fontWeight: 700,
-        color: 'var(--text-faint)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.8px',
-        marginBottom: '14px',
-      }}>
-        Indhold
+    <div style={{ padding: '4px 0 0', marginBottom: '32px' }}>
+      <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)', marginBottom: '12px', letterSpacing: 0 }}>
+        På denne side
       </h4>
 
       <nav ref={navRef} style={{ overflowY: 'auto', maxHeight: '60vh' }}>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 0 }}>
           {headings.map(({ id, text }) => (
             <li key={id} ref={(el) => { itemRefs.current[id] = el }}>
               <a
                 href={`#${id}`}
                 style={{
                   display: 'block',
-                  fontSize: '15px',
-                  lineHeight: 1.5,
-                  color: activeId === id ? 'var(--green)' : 'var(--text-muted)',
+                  fontSize: '14px',
+                  lineHeight: 1.45,
+                  color: activeId === id ? 'var(--brand-dark)' : 'var(--text-muted)',
                   textDecoration: 'none',
-                  padding: '4px 0 4px 8px',
-                  borderLeft: activeId === id ? '2px solid var(--green)' : '2px solid transparent',
+                  padding: '6px 0 6px 14px',
+                  borderLeft: activeId === id ? '2px solid var(--brand)' : '2px solid var(--line)',
                   transition: 'color 0.15s, border-color 0.15s',
-                  fontWeight: activeId === id ? 500 : 400,
+                  fontWeight: activeId === id ? 600 : 400,
                 }}
                 onClick={(e) => {
                   e.preventDefault()

@@ -1,40 +1,58 @@
-/* Port of elpris-chart/css/elpris-cards.css, site tokens */
-.wrapper { margin: 24px 0; }
-.date { margin-bottom: 12px; font-weight: 600; color: var(--text); }
-.cards { display: flex; flex-wrap: wrap; gap: 16px; }
+/* Elpris topkort — four city price tiles */
+.wrapper { margin: 28px 0; font-family: var(--font-display); }
+.date { margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .card {
-  flex: 1 1 200px;
-  min-width: 200px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  min-width: 0;
   padding: 16px;
   background: var(--bg-card);
-  border: 1px solid var(--border-faint);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.06);
 }
+.cardHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.city { font-size: 15px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .zone {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--green);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 15px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+
 }
-.city { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-.spot, .total { font-size: 13.5px; font-weight: 700; }
-.spot { color: var(--text-muted); }
-.total { color: var(--text); }
+.label { font-size: 12.5px; font-weight: 600; color: var(--text-muted); }
+.total {
+  margin-top: 2px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+
+  white-space: nowrap;
+}
+.unit { font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--text-muted); }
+.spot {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.spot span { font-weight: 600; color: var(--text); white-space: nowrap; }
 
 @media (max-width: 759px) {
-  .cards { gap: 8px; }
-  .card { flex: 1 1 100%; }
-  .zone { width: 60px; height: 60px; font-size: 17px; }
-  .spot, .total { font-size: 16px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .card { padding: 14px; }
+  .total { font-size: 21px; }
+}
+@media (max-width: 359px) {
+  .cards { grid-template-columns: 1fr; }
 }

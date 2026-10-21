@@ -92,7 +92,7 @@ export function HowToBlock({ value }: HowToBlockProps) {
           {mins && (
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: '6px',
-              background: 'rgba(26,122,60,0.1)', color: 'var(--green)',
+              background: 'rgba(46,123,214,0.1)', color: 'var(--green)',
               fontSize: '13px', fontWeight: 700,
               padding: '5px 12px', borderRadius: '20px', flexShrink: 0,
             }}>

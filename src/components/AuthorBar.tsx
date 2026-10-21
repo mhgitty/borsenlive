@@ -39,7 +39,7 @@ export function AuthorBar({ author, factChecker, updatedAt }: AuthorBarProps) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: '16px',
-      marginBottom: '20px', flexWrap: 'wrap',
+      flexWrap: 'wrap',
     }}>
       {author && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

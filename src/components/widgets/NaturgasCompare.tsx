@@ -71,14 +71,14 @@ export async function NaturgasCompare() {
                   <div className={styles.title}>{p.title}</div>
                   <div className={styles.tags}>
                     {p.binding && (
-                      <div className={styles.tag}><span className={styles.tagLabel}>Binding:</span> <span>{p.binding}</span></div>
+                      <div className={styles.tag}><span className={styles.tagLabel}>Binding</span> <span>{p.binding}</span></div>
                     )}
-                    <div className={styles.tag}><span className={styles.tagLabel}>Pristype:</span> <span>Variabel</span></div>
+                    <div className={styles.tag}><span className={styles.tagLabel}>Pristype</span> <span>Variabel</span></div>
                     <div className={styles.tag}>
-                      <span className={styles.tagLabel}>Abonnement:</span>{' '}
+                      <span className={styles.tagLabel}>Abonnement</span>{' '}
                       <span>{p.aboPrice > 0 ? `${nf(0).format(p.aboPrice)} kr./md.` : '0 kr./md.'}</span>
                     </div>
-                    <div className={styles.tag}><span className={styles.tagLabel}>Betaling:</span> <span>Månedsbetaling</span></div>
+                    <div className={styles.tag}><span className={styles.tagLabel}>Betaling</span> <span>Månedsbetaling</span></div>
                   </div>
                 </div>
 
@@ -93,9 +93,6 @@ export async function NaturgasCompare() {
                 <div className={styles.colCta}>
                   <a href={`/go/${p.ctaSlug}/`} className={styles.cta} target="_blank" rel="nofollow sponsored noopener">
                     Gå til udbyder
-                    <svg className={styles.ctaIcon} viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M7 4l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
                   </a>
                 </div>
               </div>

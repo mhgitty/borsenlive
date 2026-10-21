@@ -28,13 +28,14 @@ export function FaqBlock({ value }: FaqBlockProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <div style={{ border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+      <div style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-lg)', overflow: 'hidden', background: '#fff' }}>
         {items.map((item, i) => {
           const isOpen = open === i
           return (
             <div key={i} style={{ borderBottom: i < items.length - 1 ? '1px solid var(--border)' : 'none' }}>
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
+                aria-expanded={isOpen}
                 style={{
                   width: '100%',
                   textAlign: 'left',
@@ -46,29 +47,33 @@ export function FaqBlock({ value }: FaqBlockProps) {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   gap: '16px',
-                  fontSize: '15px',
-                  fontWeight: 600,
-                  color: 'var(--text)',
+                  fontSize: '16.5px',
+                  fontWeight: 650 as any,
+                  color: 'var(--ink)',
+                  fontFamily: 'inherit',
                   lineHeight: 1.4,
                 }}
               >
                 <span>{item.question}</span>
 
                 {/* question-circle icon */}
-                <Icon
-                  name="question-circle"
-                  size={28}
-                  color={isOpen ? 'var(--green)' : 'var(--text-faint)'}
-                  style={{ flexShrink: 0, transition: 'color 0.2s' }}
-                />
+                <span aria-hidden="true" style={{
+                  flexShrink: 0, width: '30px', height: '30px', borderRadius: '50%',
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  background: isOpen ? 'var(--brand)' : 'var(--brand-50)', color: isOpen ? '#fff' : 'var(--brand-dark)',
+                  transition: 'background .15s, transform .2s', transform: isOpen ? 'rotate(45deg)' : 'none',
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M12 5v14M5 12h14" /></svg>
+                </span>
               </button>
 
               {isOpen && (
                 <div style={{
                   padding: '0 24px 20px',
-                  fontSize: '14.5px',
-                  color: 'var(--text-muted)',
+                  fontSize: '16px',
+                  color: 'var(--text)',
                   lineHeight: 1.7,
+                  maxWidth: '72ch',
                   background: '#fff',
                 }}>
                   {item.answer}

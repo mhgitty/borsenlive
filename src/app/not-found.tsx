@@ -25,8 +25,8 @@ export default async function NotFound() {
           <>
             <div style={{
               display: 'inline-block',
-              background: 'rgba(26,122,60,0.1)', color: 'var(--green)',
-              fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px',
+              background: 'rgba(46,123,214,0.1)', color: 'var(--green)',
+              fontSize: '12px', fontWeight: 700,
               padding: '4px 12px', borderRadius: '20px', marginBottom: '18px',
             }}>
               Kladde-preview

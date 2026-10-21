@@ -16,7 +16,6 @@ import { notFound } from 'next/navigation'
 import { Icon } from '@/components/Icon'
 import { AuthorBio } from '@/components/AuthorBio'
 import { AuthorBar } from '@/components/AuthorBar'
-import { ScoreMeter } from '@/components/ScoreMeter'
 import { RelatedPages } from '@/components/RelatedPages'
 import { BASE, SITE_NAME } from '@/lib/site'
 import type { Metadata } from 'next'
@@ -50,18 +49,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: { title, description, ...(img ? { images: [img.url] } : {}) },
   }
-}
-
-function Stat({ icon, label, value }: { icon: string; label: string; value: React.ReactNode }) {
-  return (
-    <div style={{ background: 'var(--bg-raised)', border: '1px solid var(--border)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <Icon name={icon} size={22} color="var(--green)" style={{ flexShrink: 0 }} />
-      <div>
-        <div style={{ fontSize: '10px', color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: '1px' }}>{label}</div>
-        <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)' }}>{value}</div>
-      </div>
-    </div>
-  )
 }
 
 export default async function ElselskabPage({ params }: Props) {
@@ -107,81 +94,49 @@ export default async function ElselskabPage({ params }: Props) {
       <Navbar />
 
       {/* Hero */}
-      <div style={{ background: 'var(--bg-hero)', borderBottom: '1px solid var(--border)', padding: '40px 15px 32px' }}>
-        <div style={{ maxWidth: '1250px', margin: '0 auto' }}>
+      <section className="page-hero">
+        <div className="page-hero-inner">
           <Breadcrumbs crumbs={[
             { label: 'Forside', href: '/' },
             { label: 'Elselskaber', href: '/elselskaber-i-danmark/' },
             { label: es.name },
           ]} />
 
-          <div className="bm-hero">
-            {es.logo?.url && (
-              <div className="bm-hero-logo" style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', background: '#fff', border: '1px solid var(--border-faint)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={es.logo.url} alt={es.logo.alt || es.name} style={{ maxWidth: '90%', maxHeight: '90%', objectFit: 'contain', display: 'block' }} />
+          <div className="review-hero">
+            <div className="review-hero-main">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginTop: '18px' }}>
+                {es.logo?.url && (
+                  <div className="review-logo" style={{ flexShrink: 0, borderRadius: 'var(--r-lg)', background: '#fff', border: '1px solid var(--line)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={es.logo.url} alt={es.logo.alt || es.name} style={{ maxWidth: '76%', maxHeight: '70%', objectFit: 'contain' }} />
+                  </div>
+                )}
+                <h1 className="page-hero-title" style={{ margin: 0 }}>{replaceDateVars(es.titel || `${es.name} anmeldelse`)}</h1>
               </div>
-            )}
-
-            <div className="bm-hero-title" style={{ minWidth: 0, alignSelf: 'center' }}>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 4vw, 34px)', fontWeight: 800, color: 'var(--text)', marginBottom: '4px' }}>
-                {replaceDateVars(es.titel || `${es.name} anmeldelse`)}
-              </h1>
-              {es.usp && <p style={{ fontSize: '14px', color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>{replaceDateVars(es.usp)}</p>}
-            </div>
-
-            {es.score != null && (
-              <div className="bm-hero-score" style={{ display: 'flex' }}>
-                <ScoreMeter score={es.score} />
+              {es.usp && <p className="page-hero-intro" style={{ marginTop: '16px' }}>{replaceDateVars(es.usp)}</p>}
+              {es.intro && <div className="page-hero-intro" style={{ marginTop: '12px' }}><RichIntro value={es.intro} /></div>}
+              <div className="review-facts">
+                <span><Icon name="map-point" size={16} color="var(--brand)" />{areaLabel(es.priceAreas)}</span>
+                {es.founded && <span><Icon name="calendar" size={16} color="var(--brand)" />Grundlagt {es.founded}</span>}
+                {es.trustpilotScore != null && <span><Icon name="star" size={16} color="var(--brand)" />Trustpilot {es.trustpilotScore.toFixed(1).replace('.', ',')} / 5</span>}
+                {es.greenEnergy && <span><Icon name="leaf" size={16} color="var(--brand)" />Grøn strøm</span>}
+                {es.hasApp && <span><Icon name="smartphone" size={16} color="var(--brand)" />App</span>}
+                {es.score != null && <span><Icon name="cup-star" size={16} color="var(--brand)" />Vores vurdering {String(es.score).replace('.', ',')} / 10</span>}
               </div>
+              <div className="page-hero-meta"><AuthorBar author={author} updatedAt={es.lastUpdated} /></div>
+            </div>
+
+            {es.url && (
+              <aside className="review-offer">
+                {es.offer && <p className="review-offer-label">Aktuelt tilbud</p>}
+                {es.offer && <p className="review-offer-text">{es.offer}</p>}
+                <a href={es.url} target="_blank" rel="nofollow noopener noreferrer sponsored" className="btn btn-primary" style={{ width: '100%' }}>{ctaText}</a>
+                {es.terms && <p className="review-offer-terms">{es.terms}</p>}
+              </aside>
             )}
-
-            <div className="bm-hero-stats">
-              <Stat icon="map-point" label="Dækker" value={areaLabel(es.priceAreas)} />
-              {es.founded && <Stat icon="calendar" label="Grundlagt" value={es.founded} />}
-              {es.trustpilotScore != null && (
-                <Stat icon="star" label="Trustpilot" value={
-                  es.trustpilotUrl
-                    ? <a href={es.trustpilotUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>{es.trustpilotScore.toFixed(1)} / 5</a>
-                    : `${es.trustpilotScore.toFixed(1)} / 5`
-                } />
-              )}
-              {es.greenEnergy && <Stat icon="leaf" label="Grøn strøm" value="Ja" />}
-              {es.hasApp && <Stat icon="smartphone" label="App" value="Ja" />}
-              {es.customerService && <Stat icon="chat-round-dots" label="Kundeservice" value={es.customerService} />}
-            </div>
           </div>
-
-          <div style={{ marginTop: '18px' }}>
-            <AuthorBar author={author} updatedAt={es.lastUpdated} />
-          </div>
-
-          {es.intro && (
-            <div style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '760px', marginTop: '8px' }}>
-              <RichIntro value={es.intro} />
-            </div>
-          )}
-
-          {(es.offer || es.url) && (
-            <div style={{ marginTop: '24px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '12px', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {es.offer && (
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Aktuelt tilbud</div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--green)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>{es.offer}</div>
-                </div>
-              )}
-              {es.url && (
-                <a href={es.url} target="_blank" rel="nofollow noopener noreferrer sponsored"
-                  style={{ display: 'block', background: 'var(--green-dark)', color: '#fff', padding: '13px 24px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
-                  {ctaText} →
-                </a>
-              )}
-              {es.terms && <p style={{ fontSize: '11px', color: 'var(--text-faint)', margin: 0, lineHeight: 1.5 }}>{es.terms}</p>}
-            </div>
-          )}
         </div>
-      </div>
-
+      </section>
       {es.url && (
         <StickyCtaBar url={es.url} name={es.name} logoUrl={es.logo?.url ?? null} logoAlt={es.logo?.alt ?? null} bonus={es.offer ?? null} terms={es.terms ?? null} ctaText={ctaText} />
       )}
@@ -223,8 +178,8 @@ export default async function ElselskabPage({ params }: Props) {
         </div>
       )}
 
-      <Footer />
       <RelatedPages docId={es._id} />
+      <Footer />
     </>
   )
 }

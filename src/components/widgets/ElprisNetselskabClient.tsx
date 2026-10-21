@@ -37,36 +37,56 @@ export function ElprisNetselskabClient({ initial, lookup }: {
   return (
     <div className={styles.wrapper}>
       <form className={styles.search} onSubmit={search} role="search">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Søg adresse i Danmark..."
-          aria-label="Adresse"
-          autoComplete="street-address"
-        />
-        <button type="submit" disabled={pending}>{pending ? 'Søger…' : 'Søg'}</button>
+        <label className={styles.searchLabel} htmlFor="netselskab-adresse">Find netselskab for en adresse</label>
+        <div className={styles.searchRow}>
+          <input
+            id="netselskab-adresse"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Søg adresse i Danmark"
+            autoComplete="street-address"
+          />
+          <button type="submit" disabled={pending}>{pending ? 'Søger…' : 'Søg'}</button>
+        </div>
       </form>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error} role="alert">{error}</p>}
 
-      <div className={styles.box}>
-        <div className={styles.name}>{result.name}</div>
-        <div className={styles.meta}>
-          {result.phone && <span>📞 {result.phone}</span>}
-          {result.website && (
-            <span>🌐 <a href={`https://${result.website}`} target="_blank" rel="nofollow noopener">{result.website}</a></span>
+      <div className={styles.result}>
+        <div className={styles.box}>
+          <div className={styles.label}>Netselskab</div>
+          <div className={styles.name}>{result.name}</div>
+          <div className={styles.address}>{result.address}</div>
+          {(result.phone || result.website) && (
+            <div className={styles.meta}>
+              {result.phone && (
+                <span>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
+                  </svg>
+                  {result.phone}
+                </span>
+              )}
+              {result.website && (
+                <span>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  <a href={`https://${result.website}`} target="_blank" rel="nofollow noopener">{result.website}</a>
+                </span>
+              )}
+            </div>
           )}
         </div>
-        <div className={styles.address}>{result.address}</div>
-      </div>
 
-      <iframe
-        key={`${result.lat},${result.lon}`}
-        className={styles.map}
-        src={mapSrc(result.lat, result.lon)}
-        title={`Kort: ${result.address}`}
-        loading="lazy"
-      />
+        <iframe
+          key={`${result.lat},${result.lon}`}
+          className={styles.map}
+          src={mapSrc(result.lat, result.lon)}
+          title={`Kort: ${result.address}`}
+          loading="lazy"
+        />
+      </div>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { getSiteSettings } from '@/lib/sanity'
 import { resolveUrl } from './Navbar'
 import { replaceDateVars } from '@/lib/dateVars'
@@ -68,212 +67,86 @@ export async function Footer({
   const bottomNav    = bottomNavProp    ?? settings?.footerBottomNav    ?? []
   const socialLinks  = socialLinksProp  ?? settings?.socialLinks        ?? null
 
+  const linkHref = (item: any) => resolveUrl(item)
+
   return (
-    <footer style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-footer)', marginTop: '80px' }}>
-
-      {/* ════════════════════════════════════════
-          SECTION 1 — Logo + link columns
-          (spread evenly across full width)
-      ════════════════════════════════════════ */}
-      <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '56px 24px 48px' }}>
-
-        {/* Logo + tagline + columns in one flex row */}
-        <div className="footer-cols-row">
-
-          {/* Logo + tagline */}
-          <div className="footer-col-logo">
-            <div style={{ marginBottom: '14px' }}>
-              <Image
-                src={logoWhiteUrl}
-                alt="Borsenlive"
-                height={32}
-                width={180}
-                style={{ height: '32px', width: 'auto', display: 'block' }}
-                unoptimized={logoWhiteUrl.startsWith('http')}
-              />
-            </div>
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-              {tagline}
-            </p>
-            <SocialLinks links={socialLinks} />
-          </div>
-
-          {/* Link columns — each gets equal space */}
-          {(columns || []).map((col: any) => (
-            <div key={col.title} className="footer-col">
-              <div style={{
-                fontSize: '11px', fontWeight: 700,
-                color: 'var(--text-faint)',
-                textTransform: 'uppercase', letterSpacing: '0.8px',
-                marginBottom: '14px',
-              }}>
-                {col.title}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {(col.items || []).map((item: any) => {
-                  const href = resolveUrl(item)
-                  return (
-                    <Link
-                      key={href + item.label}
-                      href={href}
-                      style={{ fontSize: '13.5px', color: 'var(--text-muted)', textDecoration: 'none' }}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
+    <footer className="site-footer">
+      <div className="footer-top">
+        <div className="footer-brand">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoWhiteUrl} alt="Borsenlive" style={{ height: '30px', width: 'auto', display: 'block' }} />
+          <p>{tagline}</p>
+          <SocialLinks links={socialLinks} />
         </div>
-
-        {/* ── "As mentioned in" logos — above the divider ── */}
-        {mediaLogos && mediaLogos.length > 0 && (
-          <div style={{ marginTop: '48px' }}>
-            <div style={{
-              fontSize: '11px', fontWeight: 600, color: 'var(--text-faint)',
-              textTransform: 'uppercase', letterSpacing: '0.8px',
-              textAlign: 'center', marginBottom: '20px',
-            }}>
-              Omtalt i
-            </div>
-            <div className="footer-logos-row">
-              {mediaLogos.map((logo: { alt: string; imageUrl?: string; url?: string }) => {
-                const inner = (
-                  <div key={logo.alt} className="footer-media-logo-card">
-                    {logo.imageUrl ? (
-                      <img
-                        src={logo.imageUrl}
-                        alt={logo.alt}
-                        style={{ maxHeight: '28px', maxWidth: '120px', width: 'auto', height: 'auto', display: 'block', objectFit: 'contain', opacity: 0.65, filter: 'grayscale(1) brightness(2)' }}
-                      />
-                    ) : (
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-faint)', letterSpacing: '-0.02em' }}>
-                        {logo.alt}
-                      </span>
-                    )}
-                  </div>
-                )
-                return logo.url ? (
-                  <a key={logo.alt} href={logo.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', flex: 1 }}>
-                    {inner}
-                  </a>
-                ) : <div key={logo.alt} style={{ display: 'flex', flex: 1 }}>{inner}</div>
+        {(columns || []).map((col: any) => (
+          <div key={col.title} className="footer-col">
+            <h3>{col.title}</h3>
+            <ul>
+              {(col.items || []).map((item: any) => {
+                const href = linkHref(item)
+                return <li key={href + item.label}><Link href={href}>{item.label}</Link></li>
               })}
-            </div>
+            </ul>
           </div>
-        )}
+        ))}
       </div>
 
+      {longDisclaimer && (
+        <div className="footer-about"><p>{longDisclaimer}</p></div>
+      )}
+
       {cloud.length > 0 && (
-        <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '0 24px 40px' }}>
-          {cloudTitle && (
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '14px' }}>
-              {cloudTitle}
-            </div>
-          )}
-          <p style={{ fontSize: '12.5px', lineHeight: 1.9, color: 'var(--text-faint)', margin: 0 }}>
-            {cloud.map((l, i) => (
-              <span key={l.url + i}>
-                <Link href={l.url || '/'} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{l.label}</Link>
-                {i < cloud.length - 1 ? ', ' : ''}
+        <div className="footer-cloud">
+          <details>
+            <summary>
+              {cloudTitle || 'Elselskaber i din by'}
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontWeight: 500, color: 'var(--text-muted)', fontSize: '13px' }}>
+                {cloud.length} byer
+                <svg className="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
               </span>
-            ))}
-          </p>
+            </summary>
+            <div className="footer-cloud-list">
+              {[...cloud].sort((a, b) => a.label.localeCompare(b.label, 'da')).map((l, i) => (
+                <Link key={l.url + i} href={l.url || '/'}>{l.label}</Link>
+              ))}
+            </div>
+          </details>
         </div>
       )}
 
-      {/* ── Divider ── */}
-      <div style={{ borderTop: '1px solid var(--border)' }} />
-
-      {/* ════════════════════════════════════════
-          SECTION 2 — Disclaimer + trust icons
-      ════════════════════════════════════════ */}
-      <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '40px 24px' }}>
-
-        {/* Disclaimer text */}
-        {longDisclaimer && (
-          <p style={{
-            fontSize: '12.5px', color: 'var(--text-faint)', lineHeight: 1.7,
-            maxWidth: '860px', margin: '0 auto 36px', textAlign: 'center',
-          }}>
-            {longDisclaimer}
-          </p>
-        )}
-
-        {/* Trust icons — spread evenly across full width */}
-        {trustIcons && trustIcons.length > 0 && (
-          <div className="footer-trust-row">
-            {trustIcons.map((icon: { alt: string; imageUrl?: string; url?: string }) => {
-              const inner = icon.imageUrl ? (
-                <img
-                  key={icon.alt}
-                  src={icon.imageUrl}
-                  alt={icon.alt}
-                  style={{ height: '44px', width: 'auto', display: 'block', opacity: 0.75 }}
-                />
-              ) : (
-                <span key={icon.alt} style={{
-                  fontSize: '11px', fontWeight: 700, color: 'var(--text-faint)',
-                  border: '1px solid var(--border)', borderRadius: '6px', padding: '5px 12px',
-                  textTransform: 'uppercase', letterSpacing: '0.5px', whiteSpace: 'nowrap',
-                }}>
-                  {icon.alt}
-                </span>
-              )
-              return icon.url ? (
-                <a key={icon.alt} href={icon.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                  {inner}
+      {(mediaLogos.length > 0 || trustIcons.length > 0) && (
+        <div className="wrap" style={{ paddingBottom: '32px', display: 'grid', gap: '24px' }}>
+          {mediaLogos.length > 0 && (
+            <div className="footer-logos-row">
+              {mediaLogos.map((logo: any) => (
+                <a key={logo.alt} href={logo.url || undefined} target="_blank" rel="noopener noreferrer" className="footer-media-logo-card">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {logo.imageUrl ? <img src={logo.imageUrl} alt={logo.alt} style={{ maxHeight: '26px', maxWidth: '120px', opacity: .7, filter: 'grayscale(1) brightness(2)' }} /> : logo.alt}
                 </a>
-              ) : (
-                <div key={icon.alt} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                  {inner}
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+          {trustIcons.length > 0 && (
+            <div className="footer-trust-row">
+              {trustIcons.map((icon: any) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                icon.imageUrl ? <img key={icon.alt} src={icon.imageUrl} alt={icon.alt} style={{ height: '40px', width: 'auto', opacity: .8 }} /> : <span key={icon.alt}>{icon.alt}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
-      {/* ── Bottom bar ── */}
-      <div style={{ borderTop: '1px solid var(--border)' }}>
-        <div style={{
-          maxWidth: '1250px', margin: '0 auto',
-          padding: '18px 24px',
-          display: 'flex', flexWrap: 'wrap',
-          justifyContent: 'space-between', alignItems: 'center',
-          gap: '10px',
-        }}>
-          {/* Left */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
-            <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>{note}</p>
-            {disclaimer && (
-              <p style={{ fontSize: '12px', color: 'var(--text-faint)', margin: 0 }}>{disclaimer}</p>
-            )}
-          </div>
-
-          {/* Right: bottom nav */}
-          <div className="footer-bottom-right" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
-            {bottomNav && bottomNav.length > 0 && (
-              <nav style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-                {bottomNav.map((item: any) => {
-                  const href = resolveUrl(item)
-                  return (
-                    <Link
-                      key={href + item.label}
-                      href={href}
-                      style={{ fontSize: '12px', color: 'var(--text-faint)', textDecoration: 'none' }}
-                    >
-                      {item.label}
-                    </Link>
-                  )
-                })}
-              </nav>
-            )}
-          </div>
+      <div className="footer-bottom">
+        <div className="footer-bottom-inner">
+          <span>{note}{disclaimer ? ` – ${disclaimer}` : ''}</span>
+          {bottomNav.length > 0 && (
+            <nav aria-label="Juridisk">
+              {bottomNav.map((item: any) => <Link key={item.label} href={linkHref(item)}>{item.label}</Link>)}
+            </nav>
+          )}
         </div>
       </div>
-
     </footer>
   )
 }

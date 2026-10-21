@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Figtree } from 'next/font/google'
+import { Schibsted_Grotesk } from 'next/font/google'
 import { draftMode } from 'next/headers'
 import { AdminBar } from '@/components/AdminBar'
 import { PreviewBanner } from '@/components/PreviewBanner'
@@ -9,10 +9,10 @@ import { getSiteSettings } from '@/lib/sanity'
 import './globals.css'
 import { BASE, SITE_DOMAIN } from '@/lib/site'
 
-const figtree = Figtree({
+const schibsted = Schibsted_Grotesk({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-figtree',
+  variable: '--font-schibsted',
   display: 'swap',
 })
 
@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled: isPreview } = await draftMode()
   const settings = await getSiteSettings().catch(() => null)
   return (
-    <html lang="da" className={figtree.variable}>
+    <html lang="da" className={schibsted.variable}>
       <body>
         {isPreview && <PreviewBanner />}
         <AdminBar />

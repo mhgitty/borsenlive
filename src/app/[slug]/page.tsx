@@ -8,7 +8,6 @@ import { ComparisonTable } from '@/components/ComparisonTable'
 import { RichBody } from '@/components/RichBody'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
-import { AuthorMeta } from '@/components/AuthorMeta'
 import { JsonLd } from '@/components/JsonLd'
 import { getPostBySlug, getPageByPath, getPosts, getSiteSettings, client } from '@/lib/sanity'
 import { replaceDateVars } from '@/lib/dateVars'
@@ -140,7 +139,7 @@ export default async function SlugPage({ params }: Props) {
               { label: post.title },
             ]} />
             {post.category && (
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'rgba(26,122,60,0.1)', color: 'var(--green)', fontSize: '12px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', marginBottom: '16px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'rgba(46,123,214,0.1)', color: 'var(--green)', fontSize: '12px', fontWeight: 500, padding: '3px 12px', borderRadius: '20px', marginBottom: '16px' }}>
                 {post.category.emoji} {post.category.name}
               </div>
             )}
@@ -254,8 +253,8 @@ export default async function SlugPage({ params }: Props) {
         </div>
       )}
 
-      <Footer />
       <RelatedPages docId={page?._id} />
+      <Footer />
 
     </>
   )
