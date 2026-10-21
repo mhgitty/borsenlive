@@ -2,6 +2,7 @@ import { PortableTextRenderer } from './PortableTextRenderer'
 import { ElselskabCompare } from './elcompare/ElselskabCompare'
 import { ElprisInline } from './elcompare/ElprisInline'
 import { TableBlock } from './TableBlock'
+import { ElselskabCard } from './elcompare/ElselskabCard'
 import { resolvePriceTokens } from '@/lib/elselskab-compare'
 import {
   LadeboksCompare, LadeboksBrand, NaturgasCompare, ElprisChart, ElprisTopkort,
@@ -39,6 +40,7 @@ async function LiveTable({ value }: { value: any }) {
 
 const WIDGET_TYPES = {
   tableBlock: ({ value }: any) => <LiveTable value={value} />,
+  elselskabKortBlock: ({ value }: any) => <ElselskabCard value={value} />,
   widgetBlock: ({ value }: any) => <Widget value={value} />,
   elprisInline: ({ value }: any) => <ElprisInline value={value} />,
 }

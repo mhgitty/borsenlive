@@ -34,3 +34,4 @@ Thumbs.db
 # WordPress import scratch files
 scripts/.wp-image-cache.json
 scripts/.wp-import-preview.ndjson
+scripts/.cards-backup-*.json

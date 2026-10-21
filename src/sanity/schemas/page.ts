@@ -451,21 +451,35 @@ export const bodyField = defineField({
           to: [{ type: 'elselskab' }],
           validation: (r: any) => r.required(),
         },
+        { name: 'rank', title: 'Placering (valgfri)', type: 'number', description: 'Vises som nummer på kortet, fx 1 for nr. 1 på listen' },
         { name: 'customTitle', title: 'Titel (valgfri)', type: 'string' },
-        { name: 'image', title: 'Billede (valgfrit)', type: 'image', options: { hotspot: true } },
+        { name: 'label', title: 'Label (valgfri)', type: 'string', description: 'Kort mærkat, fx "Bedst til elbilejere"' },
+        { name: 'image', title: 'Billede (valgfrit)', type: 'image', options: { hotspot: true }, fields: [{ name: 'alt', title: 'Alt text', type: 'string' }] },
         {
           name: 'customBody',
           title: 'Brødtekst',
           type: 'array',
-          of: [{ type: 'block', styles: [{ title: 'Normal', value: 'normal' }], lists: [{ title: 'Bullet list', value: 'bullet' }, { title: 'Numbered list', value: 'number' }], marks: { decorators: [{ title: 'Bold', value: 'strong' }, { title: 'Italic', value: 'em' }] } }],
+          of: [{
+            type: 'block', of: [elprisInline],
+            styles: [{ title: 'Normal', value: 'normal' }],
+            lists: [{ title: 'Bullet list', value: 'bullet' }, { title: 'Numbered list', value: 'number' }],
+            marks: {
+              decorators: [{ title: 'Bold', value: 'strong' }, { title: 'Italic', value: 'em' }],
+              annotations: [{ name: 'link', type: 'object', title: 'Link', fields: [
+                { name: 'href', type: 'url', title: 'URL', validation: (r: any) => r.uri({ scheme: ['http', 'https', 'mailto'], allowRelative: true }) },
+                { name: 'blank', type: 'boolean', title: 'Open in new tab' },
+                { name: 'nofollow', type: 'boolean', title: 'Nofollow' },
+              ] }],
+            },
+          }],
         },
         { name: 'pros', title: '✅ Fordele', type: 'array', of: [{ type: 'string' }] },
         { name: 'cons', title: '❌ Ulemper', type: 'array', of: [{ type: 'string' }] },
       ],
       preview: {
-        select: { customTitle: 'customTitle', name: 'elselskab.name', logo: 'elselskab.logo' },
-        prepare({ customTitle, name, logo }: any) {
-          return { title: customTitle || name || 'Elselskab-kort', subtitle: name, media: logo }
+        select: { customTitle: 'customTitle', name: 'elselskab.name', logo: 'elselskab.logo', rank: 'rank' },
+        prepare({ customTitle, name, logo, rank }: any) {
+          return { title: `${rank ? rank + '. ' : ''}${customTitle || name || 'Elselskab-kort'}`, subtitle: name, media: logo }
         },
       },
     },
