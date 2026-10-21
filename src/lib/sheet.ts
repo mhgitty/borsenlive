@@ -28,6 +28,21 @@ export function parseCsv(text: string): string[][] {
   return rows
 }
 
+/** Header row + data rows of one tab (header lower-cased/trimmed for lookups). */
+export async function fetchSheetTable(tab: string): Promise<{ header: string[]; rows: string[][] }> {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`
+  try {
+    const res = await fetch(url, { next: { revalidate: SHEET_REVALIDATE, tags: ['price-sheet'] } })
+    if (!res.ok) return { header: [], rows: [] }
+    const all = parseCsv(await res.text())
+    const header = (all[0] || []).map((h) => h.trim().toLowerCase())
+    const rows = all.slice(1).filter((r) => r.some((v) => v.trim() !== '')).map((r) => r.map((v) => v.trim()))
+    return { header, rows }
+  } catch {
+    return { header: [], rows: [] }
+  }
+}
+
 /**
  * Rows of one sheet tab, header row removed and fully empty rows skipped.
  * Returns [] on any network/parse error so pages never crash on a sheet outage.

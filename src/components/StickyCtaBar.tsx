@@ -19,7 +19,7 @@ export function StickyCtaBar({ url, name, logoUrl, logoAlt, bonus, terms, ctaTex
     const sentinel = sentinelRef.current
     if (!sentinel) return
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
+      ([entry]) => setVisible(!entry.isIntersecting && entry.boundingClientRect.top < 0),
       { threshold: 0 }
     )
     observer.observe(sentinel)

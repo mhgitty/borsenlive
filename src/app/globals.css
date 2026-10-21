@@ -313,7 +313,6 @@ footer.site-footer {
 /* ═══════════════════════════════════════════════════════════════════════════
    Article body bits
    ═══════════════════════════════════════════════════════════════════════════ */
-.article-content table { font-variant-numeric: tabular-nums; }
 .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .author-bio-inner { display: flex; gap: 24px; align-items: center; }
 .pros-cons-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }

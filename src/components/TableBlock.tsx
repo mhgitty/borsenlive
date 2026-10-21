@@ -16,7 +16,7 @@ export function TableBlock({ value }: { value: TableBlockValue }) {
         </div>
       )}
       <div style={{ overflowX: 'auto', borderRadius: 'var(--r-md)', border: '1px solid var(--line)', background: '#fff' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '15px', color: 'var(--text)', fontVariantNumeric: 'tabular-nums' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '15px', color: 'var(--text)' }}>
           {hasHeaders && (
             <thead>
               <tr>

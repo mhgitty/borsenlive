@@ -10,6 +10,14 @@ const REVIEW_SLUG_ALIASES: Record<string, string> = {
   nrgi: 'nrgi-zapp',
 }
 
+/** Brands that have their own charger review under /opladning-af-elbil/<slug>-ladeboks/. */
+const LADEBOKS_REVIEWS = new Set(['ewii', 'norlys', 'nrgi-zapp', 'nettopower', 'modstroem', 'evdk', 'ok', 'looad', 'aura', 'dcc-energi'])
+function ladeboksReviewHref(slug: string): string | null {
+  const s = REVIEW_SLUG_ALIASES[slug.toLowerCase()] ?? slug.toLowerCase()
+  if (LADEBOKS_REVIEWS.has(s)) return `/opladning-af-elbil/${s}-ladeboks/`
+  return reviewHref(s)
+}
+
 const stripWebp = (s: string) => s.replace(/\.webp$/i, '').trim()
 const trimSlashes = (s: string) => s.trim().replace(/^\/+|\/+$/g, '')
 
@@ -46,7 +54,7 @@ async function getProducts(brand: string): Promise<Ladeboks[]> {
       ownershipKey: ownership.trim().toLowerCase(),
       logoUrl: logoSlug ? `/ladebokse/logos/${logoSlug}.webp` : '',
       productImgUrl: imgSlug ? `/ladebokse/products/${imgSlug}.webp` : '',
-      reviewUrl: reviewSlug ? reviewHref(REVIEW_SLUG_ALIASES[reviewSlug.toLowerCase()] ?? reviewSlug) : null,
+      reviewUrl: reviewSlug ? ladeboksReviewHref(reviewSlug) : null,
       ctaUrl: ctaSlug ? `/go/${ctaSlug}/` : null,
       title,
       elaftale,

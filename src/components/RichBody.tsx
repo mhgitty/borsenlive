@@ -1,6 +1,8 @@
 import { PortableTextRenderer } from './PortableTextRenderer'
 import { ElselskabCompare } from './elcompare/ElselskabCompare'
 import { ElprisInline } from './elcompare/ElprisInline'
+import { TableBlock } from './TableBlock'
+import { resolvePriceTokens } from '@/lib/elselskab-compare'
 import {
   LadeboksCompare, LadeboksBrand, NaturgasCompare, ElprisChart, ElprisTopkort,
   ElprisPrisudvikling, ElprisDag, ElprisNu, ElprisNetselskab,
@@ -28,7 +30,15 @@ function Widget({ value }: { value: any }) {
   }
 }
 
+/** Tables can contain [elpris …] shortcodes in their cells — resolve them server-side. */
+async function LiveTable({ value }: { value: any }) {
+  const rows = await Promise.all((value?.rows || []).map(async (r: any) => ({ ...r, cells: await Promise.all((r.cells || []).map((c: string) => resolvePriceTokens(c))) })))
+  const headers = await Promise.all((value?.headers || []).map((h: string) => resolvePriceTokens(h)))
+  return <TableBlock value={{ ...value, headers, rows }} />
+}
+
 const WIDGET_TYPES = {
+  tableBlock: ({ value }: any) => <LiveTable value={value} />,
   widgetBlock: ({ value }: any) => <Widget value={value} />,
   elprisInline: ({ value }: any) => <ElprisInline value={value} />,
 }

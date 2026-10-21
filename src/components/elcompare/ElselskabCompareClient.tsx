@@ -139,8 +139,8 @@ export function ElselskabCompareClient({ providers, raw, showFilters = true }: P
               <div className={styles.title}>{p.title}</div>
               <div className={styles.company}>{p.name}</div>
               <ul className={styles.tags}>
-                <li>Variabel pris</li>
-                <li>Ingen binding</li>
+                <li>{/^variabel$/i.test(p.priceType) ? "Variabel pris" : p.priceType}</li>
+                <li>{/^ingen$/i.test(p.binding) ? "Ingen binding" : `Binding: ${p.binding}`}</li>
                 {p.intro && <li className={styles.tagIntro}>Introtilbud</li>}
               </ul>
               {p.campaign && <div className={styles.campaign}>{p.campaign}</div>}

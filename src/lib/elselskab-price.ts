@@ -28,6 +28,13 @@ export interface ElselskabProvider {
   reviewUrl: string | null
   intro: boolean
   promo: boolean
+  /** Raw review slug from column H (e.g. "dcc-energi") */
+  reviewSlug: string
+  /** Optional extra columns (matched by header name, so the order doesn't matter) */
+  priceType: string
+  binding: string
+  trustpilot: number | null
+  extras: Record<string, string>
 }
 
 /**
