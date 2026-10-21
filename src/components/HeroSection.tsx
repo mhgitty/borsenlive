@@ -34,7 +34,7 @@ export function HeroSection({ title, intro, updatedAt, author, factChecker, brea
 
         {hasIntro && (
           <p className="page-hero-intro">
-            <RichIntro value={typeof intro === 'string' ? replaceDateVars(intro) : intro} limit={60} />
+            <RichIntro value={typeof intro === 'string' ? replaceDateVars(intro) : intro} limit={50} />
           </p>
         )}
 

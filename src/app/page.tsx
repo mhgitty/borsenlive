@@ -76,7 +76,7 @@ export default async function HomePage() {
         <div className="home-hero-inner">
           <div>
             <h1>{heroHeading}</h1>
-            <p className="lead"><RichIntro value={typeof heroIntro === 'string' ? replaceDateVars(heroIntro) : heroIntro} limit={60} /></p>
+            <p className="lead"><RichIntro value={typeof heroIntro === 'string' ? replaceDateVars(heroIntro) : heroIntro} limit={50} /></p>
             <div className="home-hero-actions">
               <a href="#comparison-list" className="btn btn-primary">Sammenlign alle elaftaler</a>
               <Link href="/elpriser-time-for-time/" className="btn btn-secondary">Elprisen time for time</Link>
