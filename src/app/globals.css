@@ -430,3 +430,4 @@ a[rel~="sponsored"] { transition: background .15s, box-shadow .15s; }
 .intro-p + .intro-p { margin-top: .75em; }
 .intro-more { font: inherit; font-size: .92em; font-weight: 600; color: var(--brand-dark); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--brand-300); white-space: nowrap; }
 .intro-more:hover { color: var(--ink); }
+@media (max-width: 600px) { .howto-body { grid-column: 1 / -1 !important; } }

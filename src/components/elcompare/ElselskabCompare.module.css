@@ -159,16 +159,28 @@
   .filtersOpen { display: grid; }
   .introLabel { margin-top: 0; }
   .sliderRow { flex-direction: column; align-items: stretch; gap: 4px; }
-  .card {
-    grid-template-columns: 88px minmax(0, 1fr);
-    grid-template-areas: "logo info" "price price" "cta cta";
-    gap: 12px 14px; padding: 16px;
+  /* Compact phone card: logo + title on one row, everything else full width */
+  .card, .cardPlain {
+    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-areas: none;
+    grid-auto-flow: row;
+    gap: 0 12px; padding: 14px 14px 12px; align-items: center;
   }
   .rank { display: none; }
-  .logo { width: 88px; height: 48px; padding: 6px 8px; }
-  .logo img { max-height: 34px; }
-  .colPrice { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; text-align: left; border-top: 1px solid var(--line); padding-top: 12px; }
+  .colLogo, .colInfo { display: contents; }
+  .colPrice, .colCta, .logo, .title, .company, .tags, .campaign, .topBadge, .reviewLink { grid-row: auto; }
+  .logo { grid-column: 1; grid-row: span 2 !important; width: 76px; height: 46px; padding: 5px 7px; align-self: center; }
+  .logo img { max-height: 32px; }
+  .topBadge { grid-column: 1 / -1; order: -1; justify-self: start; margin-bottom: 10px; }
+  .title { grid-column: 2; font-size: 16.5px; align-self: end; }
+  .company { grid-column: 2; align-self: start; }
+  .tags { grid-column: 1 / -1; margin-top: 12px; }
+  .campaign { grid-column: 1 / -1; margin-top: 10px; }
+  .colPrice { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; text-align: left; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; }
   .priceValue { font-size: 26px; }
+  .priceMonth { margin-top: 0; }
   .breakdown { flex-basis: 100%; margin-top: 2px; }
   .tooltip { right: auto; left: 0; }
+  .colCta { grid-column: 1 / -1; margin-top: 12px; }
+  .reviewLink { grid-column: 1 / -1; order: 10; justify-self: center; margin-top: 10px; font-size: 13px; }
 }

@@ -2,6 +2,7 @@
 
 import { Icon } from '@/components/Icon'
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -50,7 +51,17 @@ function MobileNavNode({ node, depth, onNavigate }: { node: NavNode; depth: numb
 
 export function MobileMenu({ items }: { items: NavNode[] }) {
   const [open, setOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+  useEffect(() => { setMounted(true) }, [])
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   // Close menu on route change
   useEffect(() => { setOpen(false) }, [pathname])
@@ -74,17 +85,25 @@ export function MobileMenu({ items }: { items: NavNode[] }) {
         </span>
       </button>
 
-      <div className={`mobile-menu-backdrop${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
+      {/* The drawer is portalled to <body>: the header uses backdrop-filter, which
+          makes position:fixed children size to the header instead of the screen
+          (Safari/iOS), so the menu would be cut off or invisible. */}
+      {mounted && createPortal(
+        <>
+        <div className={`mobile-menu-backdrop${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
 
-      <nav className={`mobile-menu-drawer${open ? ' open' : ''}`} aria-hidden={!open} aria-label="Menu">
-        <button className="mobile-menu-btn mobile-menu-close" style={{ display: 'flex' }} onClick={() => setOpen(false)} aria-label="Luk menu">
-          <span className="burger-icon open"><span /><span /><span /></span>
-        </button>
-        {items.map((item) => (
-          <MobileNavNode key={item.href + item.label} node={item} depth={0} onNavigate={() => setOpen(false)} />
-        ))}
-        <Link href="/#comparison-list" className="btn btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Sammenlign elpriser</Link>
-      </nav>
+        <nav className={`mobile-menu-drawer${open ? ' open' : ''}`} aria-hidden={!open} aria-label="Menu">
+          <button className="mobile-menu-btn mobile-menu-close" style={{ display: 'flex' }} onClick={() => setOpen(false)} aria-label="Luk menu">
+            <span className="burger-icon open"><span /><span /><span /></span>
+          </button>
+          {items.map((item) => (
+            <MobileNavNode key={item.href + item.label} node={item} depth={0} onNavigate={() => setOpen(false)} />
+          ))}
+          <Link href="/#comparison-list" className="btn btn-primary mobile-menu-cta" onClick={() => setOpen(false)}>Sammenlign elpriser</Link>
+        </nav>
+        </>,
+        document.body,
+      )}
     </>
   )
 }

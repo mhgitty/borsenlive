@@ -8,7 +8,7 @@
 .label { display: inline-block; margin-bottom: 4px; padding: 2px 9px; border-radius: 999px; background: var(--brand-50); border: 1px solid var(--brand-100); color: var(--brand-dark); font-size: 12px; font-weight: 600; }
 .title { font-size: 21px !important; line-height: 1.25; letter-spacing: -0.015em; color: var(--ink); margin: 0 !important; }
 .sub { font-size: 14px; color: var(--text-muted); margin-top: 3px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
-.rankNote { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: #6B4C00; background: var(--spark-soft); padding: 2px 9px 2px 7px; border-radius: 999px; }
+.rankNote { white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: #6B4C00; background: var(--spark-soft); padding: 2px 9px 2px 7px; border-radius: 999px; }
 .rankNote::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--spark); }
 .price { text-align: right; white-space: nowrap; color: var(--ink); }
 .price strong { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
@@ -52,6 +52,8 @@
   .image { width: calc(100% - 32px); margin: 14px 16px 0; }
   .pc { grid-template-columns: 1fr; margin: 6px 16px 0; }
   .foot { padding: 14px 16px; }
-  .actions { width: 100%; justify-content: space-between; }
+  .actions { width: 100%; flex-direction: column-reverse; align-items: stretch; gap: 10px; margin-left: 0; }
+  .cta { text-align: center; padding: 13px 16px; }
+  .review { align-self: center; }
   .title { font-size: 19px !important; }
 }

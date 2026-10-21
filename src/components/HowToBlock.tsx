@@ -165,7 +165,7 @@ export function HowToBlock({ value }: HowToBlockProps) {
 
             {/* Body (spans under the title, indented past the badge) */}
             {item.body && (Array.isArray(item.body) ? item.body.length > 0 : true) && (
-              <div style={{ gridColumn: '2' }}>
+              <div className="howto-body" style={{ gridColumn: '2' }}>
                 {Array.isArray(item.body) ? (
                   <PortableText value={item.body} components={stepBodyComponents} />
                 ) : (
