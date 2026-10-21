@@ -32,11 +32,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const fmt = (n: number, d = 2) => n.toLocaleString('da-DK', { minimumFractionDigits: d, maximumFractionDigits: d })
 const MONTHS = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december']
 
-const TRUST = [
-  { icon: 'graph-new-up', title: 'Priser fra i dag', body: 'Listen regnes ud fra den aktuelle spotpris, nettarif og hvert selskabs tillæg og abonnement — ikke fra en tabel, der blev skrevet sidste år.' },
-  { icon: 'scale', title: 'Samme regnestykke for alle', body: 'Alle elaftaler sammenlignes på samlet pris pr. kWh ved dit forbrug, så du kan se forskellen på tværs af selskaber.' },
-  { icon: 'hand-money', title: 'Gratis at bruge', body: 'Det koster ikke noget at bruge Borsenlive. Vi kan få provision, når du skifter via vores links — det ændrer ikke din pris.' },
-]
 
 export default async function HomePage() {
   const [posts, hp, compare] = await Promise.all([
@@ -143,16 +138,6 @@ export default async function HomePage() {
           </aside>
         </div>
       )}
-
-      <section className="trust-strip" aria-label="Om Borsenlive">
-        {(hp?.trustItems?.length ? hp.trustItems : TRUST).map((item: any, i: number) => (
-          <div key={item._key || i}>
-            <div className="trust-icon"><Icon name={item.icon || 'shield-check'} size={22} color="var(--brand)" /></div>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </div>
-        ))}
-      </section>
 
       <Footer />
     </>
