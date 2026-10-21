@@ -1,0 +1,29 @@
+.panel { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-md); padding: 20px 22px; }
+.head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--ink); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--price-low); box-shadow: 0 0 0 4px rgba(31,157,107,.15); }
+.toggle { display: inline-flex; background: var(--bg-page); border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.toggle button { font: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); background: none; border: 0; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.toggle .on { background: var(--ink); color: #fff; }
+.now { display: flex; align-items: baseline; gap: 8px; margin-top: 14px; color: var(--ink); flex-wrap: wrap; }
+.now strong { font-size: 46px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.now span { font-size: 16px; font-weight: 600; color: var(--text-muted); }
+.now em { font-style: normal; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; margin-left: auto; align-self: center; }
+.low { background: rgba(31,157,107,.12); color: var(--price-low); }
+.mid { background: rgba(232,163,23,.15); color: #8A5D00; }
+.high { background: rgba(224,82,63,.12); color: var(--price-high); }
+.sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+.bars { display: flex; align-items: flex-end; gap: 3px; height: 72px; margin-top: 18px; }
+.bars span { flex: 1; background: var(--brand-200); border-radius: 3px 3px 1px 1px; min-width: 0; }
+.bars .barMin { background: var(--price-low); }
+.bars .barMax { background: var(--price-high); }
+.bars .barNow { background: var(--ink); }
+.axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+.stats div { background: var(--bg-page); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 9px 11px; }
+.stats dt { font-size: 12px; color: var(--text-muted); }
+.stats dd { font-size: 17px; font-weight: 700; color: var(--ink); margin-top: 1px; }
+.stats small { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+.pending { font-size: 13px !important; }
+.tip { margin-top: 12px; font-size: 13.5px; color: var(--text); line-height: 1.5; }
+.tip b { color: var(--ink); }

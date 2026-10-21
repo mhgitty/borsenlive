@@ -35,3 +35,4 @@ Thumbs.db
 scripts/.wp-image-cache.json
 scripts/.wp-import-preview.ndjson
 scripts/.cards-backup-*.json
+scripts/.structure-backup-*.json

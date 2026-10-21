@@ -3,13 +3,20 @@ import { replaceDateVars } from '@/lib/dateVars'
 
 interface Crumb { label: string; href?: string }
 
+/** "Bedste Elselskab - Se elselskaber bedst i test…" → "Bedste Elselskab" */
+export function shortCrumb(label: string): string {
+  let s = label.split(/\s[-–—|:]\s|:\s/)[0].replace(/\s*\([^)]*\)\s*$/, '').trim()
+  if (s.length > 42) s = s.slice(0, 42).replace(/\s+\S*$/, '') + '…'
+  return s
+}
+
 export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
   return (
     <nav aria-label="Brødkrumme">
       <ol className="breadcrumbs" style={{ listStyle: 'none' }}>
         {crumbs.map((crumb, i) => {
           const isLast = i === crumbs.length - 1
-          const label = replaceDateVars(crumb.label)
+          const label = shortCrumb(replaceDateVars(crumb.label))
           return (
             <li key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
               {isLast || !crumb.href

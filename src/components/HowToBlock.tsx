@@ -40,6 +40,7 @@ const stepBodyComponents = {
 interface HowToBlockProps {
   value: {
     title?: string
+    hideTitle?: boolean
     intro?: string
     totalMinutes?: number
     items?: HowToItem[]
@@ -68,16 +69,16 @@ export function HowToBlock({ value }: HowToBlockProps) {
   } : null
 
   return (
-    <div style={{ margin: '32px 0' }}>
+    <div style={{ margin: '24px 0 32px' }}>
       {howToSchema && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
-      {(value.title || mins) && (
+      {((value.title && !value.hideTitle) || mins) && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: value.intro ? '10px' : '16px' }}>
-          {value.title && (
+          {value.title && !value.hideTitle && (
             <h2 style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(18px, 2.5vw, 24px)',
@@ -122,7 +123,7 @@ export function HowToBlock({ value }: HowToBlockProps) {
             background: 'var(--bg-card)',
             border: '1px solid var(--border)',
             borderRadius: '16px',
-            padding: '26px 28px',
+            padding: '20px 22px',
             alignItems: 'center',
           }}>
             {/* Number badge */}

@@ -11,6 +11,7 @@
  *   node scripts/migrate-elselskab-cards.mjs --dry            # report only
  *   node scripts/migrate-elselskab-cards.mjs                  # apply (backs up first)
  *   node scripts/migrate-elselskab-cards.mjs --only=bedste-elselskab
+ *   node scripts/migrate-elselskab-cards.mjs --only=/ --h2   # also numbered H2 company sections
  *   node scripts/migrate-elselskab-cards.mjs --restore=scripts/.cards-backup-XXXX.json
  *
  * Env: NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, SANITY_WRITE_TOKEN
@@ -56,9 +57,10 @@ const spanText = (b) => (b.children || []).filter((c) => c._type === 'span').map
 const hasInline = (b) => (b.children || []).some((c) => c._type !== 'span')
 
 function matchHeading(b) {
-  if (b._type !== 'block' || b.style !== 'h3') return null
+  if (b._type !== 'block' || !(b.style === 'h3' || (args.h2 && b.style === 'h2'))) return null
   const text = spanText(b).replace(/\s+/g, ' ').trim()
   const m = text.match(/^(\d{1,2})\s*[.)]\s*(.+)$/)
+  if (b.style === 'h2' && !m) return null
   const rest = m ? m[2] : text
   const head = rest.split(/\s[-–—|:]\s|:\s|\s\(/)[0].trim()
   if (head.length > 40) return null
@@ -92,7 +94,7 @@ function convert(body) {
   const cards = []
   let i = 0
   // Count candidate headings first (need >= 2 on the page)
-  if (body.filter((b) => matchHeading(b)).length < 2) return null
+  if (body.filter((b) => matchHeading(b)).length < (args.h2 ? 1 : 2)) return null
   let run = 0
   while (i < body.length) {
     const b = body[i]
@@ -142,14 +144,14 @@ function convert(body) {
 
 const SKIP = /(naturgas|^gas|-gas|opladning|ladeboks|ladestander|ladeboks)/
 const only = args.only ? String(args.only).split(',') : null
-const docs = await client.fetch(`*[_type in ["page", "homepage", "guide"] && count(body[style == "h3"]) >= 2]{ _id, _type, title, "slug": slug.current, body }`)
+const docs = await client.fetch(`*[_type in ["page", "homepage", "guide"] && count(body[style == "h3" || (style == "h2" && $h2)]) >= 2]{ _id, _type, title, "slug": slug.current, body }`, { h2: !!args.h2 })
 const changes = []
 for (const d of docs) {
   const slug = d.slug || (d._type === 'homepage' ? '/' : d._id)
   if (only && !only.includes(slug)) continue
   if (SKIP.test(slug) && !/ladeplads/.test(slug)) continue
   const res = convert(d.body || [])
-  if (!res || res.cards.length < 2) continue
+  if (!res || res.cards.length < (args.h2 ? 1 : 2)) continue
   changes.push({ d, slug, ...res })
 }
 

@@ -214,6 +214,9 @@ a { color: inherit; }
 .page-hero-inner { position: relative; z-index: 1; max-width: var(--wrap); margin: 0 auto; padding: 36px 20px 40px; }
 .page-hero-title { font-size: clamp(28px, 3.4vw, 42px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 800; color: var(--ink); max-width: 30ch; margin: 14px 0 16px; }
 .page-hero-intro { font-size: 17px; line-height: 1.65; color: var(--text); max-width: 68ch; }
+.page-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 48px; align-items: start; }
+.page-hero-grid .page-hero-title { max-width: 22ch; }
+@media (max-width: 1000px) { .page-hero-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; } .page-hero-grid > aside { max-width: 520px; } }
 .page-hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; }
 .quicklinks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .quicklink {

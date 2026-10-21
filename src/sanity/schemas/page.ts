@@ -562,6 +562,13 @@ export const bodyField = defineField({
           initialValue: 'How It Works',
         },
         {
+          name: 'hideTitle',
+          title: 'Skjul titel',
+          type: 'boolean',
+          description: 'Brug når der allerede står en overskrift lige over blokken (titlen bruges stadig i HowTo structured data)',
+          initialValue: false,
+        },
+        {
           name: 'intro',
           title: 'Intro (optional)',
           type: 'text',

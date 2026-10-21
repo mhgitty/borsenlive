@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
+import { ElprisHeroStats, elprisArea } from '@/components/elpris/ElprisHeroStats'
 import { LadeboksHero } from '@/components/review/LadeboksHero'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { AuthorBio } from '@/components/AuthorBio'
@@ -89,13 +90,14 @@ export default async function DynamicPage({ params }: Props) {
     factChecker: page.factChecker,
     updatedAt: page.lastUpdated,
     buttons: heroButtons,
+    aside: elprisArea(page.body, page.title) ? <ElprisHeroStats area={elprisArea(page.body, page.title)!} /> : undefined,
     breadcrumbs: [
       { label: 'Forside', href: '/' },
       ...slug.slice(0, -1).map((seg, idx) => ({
         label: slugLabel(seg),
         href: `/${slug.slice(0, idx + 1).join('/')}/`,
       })),
-      { label: slugLabel(slug[slug.length - 1]) },
+      { label: page.title || slugLabel(slug[slug.length - 1]) },
     ],
   }
 

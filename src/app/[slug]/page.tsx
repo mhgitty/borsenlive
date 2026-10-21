@@ -2,6 +2,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { HeroSection } from '@/components/HeroSection'
+import { ElprisHeroStats, elprisArea } from '@/components/elpris/ElprisHeroStats'
 import { AuthorBar } from '@/components/AuthorBar'
 import { AuthorBio } from '@/components/AuthorBio'
 import { ComparisonTable } from '@/components/ComparisonTable'
@@ -210,6 +211,7 @@ export default async function SlugPage({ params }: Props) {
       <Navbar />
       <HeroSection
         buttons={heroButtonsFor(page)}
+        aside={elprisArea(page.body, page.title) ? <ElprisHeroStats area={elprisArea(page.body, page.title)!} /> : undefined}
         title={page.title}
         intro={page.intro}
         author={author}

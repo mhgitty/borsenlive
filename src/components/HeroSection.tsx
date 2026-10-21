@@ -16,15 +16,19 @@ interface HeroSectionProps {
   breadcrumbs?: Crumb[]
   /** Optional anchor buttons below the text that scroll to sections on the page. */
   buttons?: { text: string; targetId: string; variant?: 'solid' | 'outline' }[] | null
+  /** Optional panel shown to the right of the text (stacks below on mobile). */
+  aside?: React.ReactNode
 }
 
-export function HeroSection({ title, intro, updatedAt, author, factChecker, breadcrumbs, buttons }: HeroSectionProps) {
+export function HeroSection({ title, intro, updatedAt, author, factChecker, breadcrumbs, buttons, aside }: HeroSectionProps) {
   const hasIntro = Array.isArray(intro) ? intro.length > 0 : !!intro
 
   return (
     <section className="page-hero">
       <div className="page-hero-inner">
         {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs crumbs={breadcrumbs} />}
+        <div className={aside ? 'page-hero-grid' : undefined}>
+        <div>
 
         <h1 className="page-hero-title">{replaceDateVars(title)}</h1>
 
@@ -49,6 +53,9 @@ export function HeroSection({ title, intro, updatedAt, author, factChecker, brea
             ))}
           </nav>
         )}
+        </div>
+        {aside}
+        </div>
       </div>
     </section>
   )
