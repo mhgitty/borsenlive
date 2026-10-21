@@ -41,7 +41,7 @@ async function LiveTable({ value }: { value: any }) {
 const WIDGET_TYPES = {
   tableBlock: ({ value }: any) => <LiveTable value={value} />,
   elselskabKortBlock: ({ value }: any) => <ElselskabCard value={value} />,
-  widgetBlock: ({ value }: any) => <Widget value={value} />,
+  widgetBlock: ({ value }: any) => <div id={`w-${value._key}`} style={{ scrollMarginTop: 90 }}><Widget value={value} /></div>,
   elprisInline: ({ value }: any) => <ElprisInline value={value} />,
 }
 

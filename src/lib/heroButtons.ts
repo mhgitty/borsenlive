@@ -3,6 +3,13 @@ import { replaceDateVars } from './dateVars'
 
 type HeroButton = { text: string; targetId: string; variant?: 'solid' | 'outline' }
 
+const COMPARE_LABELS: Record<string, string> = {
+  elselskabCompare: 'Se de billigste elselskaber',
+  ladeboksCompare: 'Se de billigste ladebokse',
+  ladeboksBrand: 'Se priser på ladebokse',
+  naturgasCompare: 'Se de billigste gasaftaler',
+}
+
 // Full hero "Quick links" set for a document: the comparison-list button (solid)
 // plus outline buttons for Pros & Cons / How-to / FAQ blocks found in the body,
 // plus any custom hero quick links. Shared by every page template so the hero
@@ -16,8 +23,10 @@ export function heroButtonsFor(doc: any): HeroButton[] {
 
   const body = ((doc?.body as any[]) || [])
   const types = new Set(body.map((b: any) => b?._type))
-  if (!out.length && body.some((b: any) => b?._type === 'widgetBlock' && b?.widget === 'elselskabCompare')) {
-    out.push({ text: 'Se de billigste elselskaber', targetId: 'comparison-list', variant: 'solid' })
+  // Jump button to the first comparison list on the page (electricity, chargers or gas)
+  if (!out.length) {
+    const first = body.find((b: any) => b?._type === 'widgetBlock' && COMPARE_LABELS[b?.widget])
+    if (first) out.push({ text: COMPARE_LABELS[first.widget], targetId: `w-${first._key}`, variant: 'solid' })
   }
   if (types.has('prosConsBlock')) out.push({ text: 'Fordele & ulemper', targetId: 'pros-cons', variant: 'outline' })
   if (types.has('howToBlock'))    out.push({ text: 'Sådan gør du',      targetId: 'how-to',    variant: 'outline' })

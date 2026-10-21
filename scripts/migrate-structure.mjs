@@ -51,14 +51,45 @@ function splitStep(b) {
   return null
 }
 
+/** Paragraph/list item → plain step paragraph (lists become "• " lines). */
+function toStepBlock(b) {
+  const defs = (b.markDefs || []).filter((d) => d._type === 'link' && d.href)
+  const keep = new Set(defs.map((d) => d._key))
+  const kids = (b.children || []).filter((c) => c._type === 'span').map((c) => ({ ...c, marks: (c.marks || []).filter((m) => m === 'strong' || m === 'em' || keep.has(m)) }))
+  if (b.listItem && kids[0]) kids[0] = { ...kids[0], text: '• ' + kids[0].text }
+  return { _type: 'block', _key: b._key || key(), style: 'normal', markDefs: defs, children: kids }
+}
+
 function convert(body) {
   const out = []
   const stats = { proscons: 0, howto: 0, brand: 0 }
   let lastHeading = null
+  let lastHeadingStyle = null
   let sinceHeading = 0
   for (let i = 0; i < body.length; i++) {
     const b = body[i]
-    if (isHeading(b)) { lastHeading = text(b).trim(); sinceHeading = 0; out.push(b); continue }
+    // 2b. how-to as numbered H3 steps ("1. Kortlæg dit kørselsbehov" + paragraphs) under a how-to H2
+    if (b._type === 'block' && b.style === 'h3' && lastHeadingStyle === 'h2' && lastHeading && HOWTO_HEAD.test(lastHeading)) {
+      const items = []
+      let j = i, n = 1
+      while (j < body.length && body[j]._type === 'block' && body[j].style === 'h3') {
+        const m = text(body[j]).trim().match(/^(\d{1,2})\s*[.)]\s*(.+)$/)
+        if (!m || +m[1] !== n) break
+        const paras = []
+        let k = j + 1
+        while (k < body.length && body[k]._type === 'block' && (body[k].style || 'normal') === 'normal') { paras.push(body[k]); k++ }
+        if (!paras.length) break
+        items.push({ _type: 'howToItem', _key: body[j]._key || key(), title: m[2].trim(), body: paras.map(toStepBlock) })
+        j = k; n++
+      }
+      const endsClean = j >= body.length || body[j]._type !== 'block' || /^h[12]$/.test(body[j].style || '')
+      if (items.length >= 3 && endsClean) {
+        out.push({ _type: 'howToBlock', _key: key(), title: lastHeading, hideTitle: true, items })
+        stats.howto++; i = j - 1; sinceHeading = 99; continue
+      }
+    }
+
+    if (isHeading(b)) { lastHeading = text(b).trim(); lastHeadingStyle = b.style; sinceHeading = 0; out.push(b); continue }
 
     // 3. brand widget right after a card
     if (b._type === 'widgetBlock' && b.widget === 'elselskabBrand' && out[out.length - 1]?._type === 'elselskabKortBlock') { stats.brand++; continue }
