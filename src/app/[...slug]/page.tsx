@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HeroSection } from '@/components/HeroSection'
+import { LadeboksHero } from '@/components/review/LadeboksHero'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { AuthorBio } from '@/components/AuthorBio'
 import { RichBody } from '@/components/RichBody'
@@ -80,27 +81,29 @@ export default async function DynamicPage({ params }: Props) {
   }
 
   const heroButtons = heroButtonsFor(page)
+  const isChargerReview = slug.length === 2 && slug[0] === 'opladning-af-elbil' && slug[1].endsWith('-ladeboks')
+  const heroProps = {
+    title: page.title,
+    intro: page.intro,
+    author,
+    factChecker: page.factChecker,
+    updatedAt: page.lastUpdated,
+    buttons: heroButtons,
+    breadcrumbs: [
+      { label: 'Forside', href: '/' },
+      ...slug.slice(0, -1).map((seg, idx) => ({
+        label: slugLabel(seg),
+        href: `/${slug.slice(0, idx + 1).join('/')}/`,
+      })),
+      { label: slugLabel(slug[slug.length - 1]) },
+    ],
+  }
 
   return (
     <>
       <JsonLd data={jsonLd} />
       <Navbar />
-      <HeroSection
-        title={page.title}
-        intro={page.intro}
-        author={author}
-        factChecker={page.factChecker}
-        updatedAt={page.lastUpdated}
-        buttons={heroButtons}
-        breadcrumbs={[
-          { label: 'Forside', href: '/' },
-          ...slug.slice(0, -1).map((seg, idx) => ({
-            label: slugLabel(seg),
-            href: `/${slug.slice(0, idx + 1).join('/')}/`,
-          })),
-          { label: slugLabel(slug[slug.length - 1]) },
-        ]}
-      />
+      {(isChargerReview && await LadeboksHero({ path: buildPath(slug), ...heroProps })) || <HeroSection {...heroProps} />}
 
       {/* Comparison table — configured per page in Sanity Studio */}
       {page.showComparisonTable && page.comparisonTable && (

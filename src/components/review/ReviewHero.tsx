@@ -2,7 +2,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { AuthorBar } from '@/components/AuthorBar'
 import { Icon } from '@/components/Icon'
 import { replaceDateVars } from '@/lib/dateVars'
-import { getReviewSheetData } from '@/lib/elselskab-compare'
+import { getReviewSheetData, getCompareData, priceFor } from '@/lib/elselskab-compare'
 import styles from './ReviewHero.module.css'
 
 const kr = (n: number, d = 2) => n.toLocaleString('da-DK', { minimumFractionDigits: d, maximumFractionDigits: d })
@@ -22,6 +22,15 @@ interface Props {
  */
 export async function ReviewHero({ es, author, slug }: Props) {
   const data = await getReviewSheetData(slug).catch(() => null)
+  // Not in the sheet → show the cheapest alternatives instead of a price card
+  const alternatives = data ? [] : await getCompareData().then(({ providers, raw }) => {
+    const seen = new Set<string>()
+    return providers
+      .map((p) => ({ p, price: priceFor(p, raw.DK1, 'DK1') }))
+      .sort((a, b) => a.price.total - b.price.total)
+      .filter(({ p }) => (seen.has(p.name) ? false : (seen.add(p.name), true)))
+      .slice(0, 3)
+  }).catch(() => [])
   const name = data?.company || es.name
   const logo = data?.logo || es.logo?.url
   const title = replaceDateVars(es.titel || `${es.name} anmeldelse`)
@@ -30,16 +39,23 @@ export async function ReviewHero({ es, author, slug }: Props) {
 
   const facts: { icon: string; text: string }[] = []
   if (data) facts.push({ icon: 'ranking', text: `Nr. ${data.rank} af ${data.total} elaftaler lige nu` })
+  if (!data && es.score) facts.push({ icon: 'ranking', text: `Vores score ${kr(es.score, 1)} / 10` })
   if (trustpilot != null) facts.push({ icon: 'star', text: `Trustpilot ${kr(trustpilot, 1)} / 5` })
   if (x['grundlagt'] || es.founded) facts.push({ icon: 'calendar', text: `Grundlagt ${x['grundlagt'] || es.founded}` })
   if (data?.best) facts.push({ icon: 'lock-keyhole-unlocked', text: /^ingen$/i.test(data.best.binding) ? 'Ingen binding' : `Binding: ${data.best.binding}` })
   if (data?.products.some((p) => p.intro)) facts.push({ icon: 'gift', text: 'Har introtilbud' })
   if ((x['grøn strøm'] || '').toLowerCase().startsWith('j') || es.greenEnergy) facts.push({ icon: 'leaf', text: 'Grøn strøm' })
   if ((x['app'] || '').toLowerCase().startsWith('j') || es.hasApp) facts.push({ icon: 'smartphone', text: 'App' })
+  if (es.evCharging) facts.push({ icon: 'plug-circle', text: 'Elbil-aftale' })
+  if (es.customerService) facts.push({ icon: 'headphones-round', text: es.customerService })
+  if (!data) facts.push({ icon: 'shield-check', text: 'Uafhængig anmeldelse' })
 
-  const pros = [x['fordel 1'], x['fordel 2'], x['fordel 3']].filter(Boolean)
-  const cons = [x['ulempe 1'], x['ulempe 2'], x['ulempe 3']].filter(Boolean)
-  const blurb = x['kort om'] || es.usp
+  const sheetPros = [x['fordel 1'], x['fordel 2'], x['fordel 3']].filter(Boolean)
+  const sheetCons = [x['ulempe 1'], x['ulempe 2'], x['ulempe 3']].filter(Boolean)
+  const pros: string[] = sheetPros.length ? sheetPros : (es.pros || []).slice(0, 3)
+  const cons: string[] = sheetCons.length ? sheetCons : (es.cons || []).slice(0, 3)
+  const blurb = x['kort om'] || es.usp || es.metaDescription
+  const initials = String(name).split(/\s+/).map((w: string) => w[0]).join('').slice(0, 2).toUpperCase()
 
   // Position of this company's best product on the market range (cheapest → priciest)
   let pos = 0, avgPos = 0, diffOre = 0
@@ -65,12 +81,10 @@ export async function ReviewHero({ es, author, slug }: Props) {
         <div className={styles.grid}>
           <div className={styles.main}>
             <div className={styles.brand}>
-              {logo && (
-                <div className={styles.logo}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={logo} alt={name} />
-                </div>
-              )}
+              <div className={styles.logo}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {logo ? <img src={logo} alt={name} /> : <span className={styles.monogram} aria-hidden="true">{initials}</span>}
+              </div>
               <span className={styles.kicker}>Anmeldelse</span>
             </div>
             <h1 className={styles.title}>{title}</h1>
@@ -149,12 +163,37 @@ export async function ReviewHero({ es, author, slug }: Props) {
                 </div>
               )}
             </aside>
-          ) : es.url ? (
-            <aside className={styles.card}>
-              {es.offer && <div className={styles.product}>{es.offer}</div>}
-              <a href={es.url} target="_blank" rel="nofollow noopener noreferrer sponsored" className={styles.cta} style={{ marginTop: '16px' }}>Gå til {name}</a>
+          ) : (
+            <aside className={styles.card} aria-label="Billigste elselskaber lige nu">
+              <div className={styles.cardHead}>
+                <div>
+                  <div className={styles.product}>Billigste elselskaber lige nu</div>
+                  <div className={styles.productSub}>{name} er ikke med i vores live prissammenligning. Her er de billigste aftaler i dag.</div>
+                </div>
+              </div>
+              <ol className={styles.alts}>
+                {alternatives.map(({ p, price }, i) => (
+                  <li key={p.key}>
+                    <span className={styles.altRank}>{i + 1}</span>
+                    <span className={styles.altLogo}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      {p.logo ? <img src={p.logo} alt={p.name} loading="lazy" /> : p.name}
+                    </span>
+                    <span className={styles.altInfo}>
+                      <b>{p.name}</b>
+                      <small>{kr(price.total)} kr./kWh · ca. {kr(Math.round(price.monthly), 0)} kr./md.</small>
+                    </span>
+                    <a href={`/go/${p.ctaSlug}/`} target="_blank" rel="nofollow noopener noreferrer sponsored" className={styles.altCta}>Se tilbud</a>
+                  </li>
+                ))}
+              </ol>
+              <a href="/#comparison-list" className={styles.cta}>Sammenlign alle elselskaber</a>
+              {es.url && (
+                <a href={es.url} target="_blank" rel="nofollow noopener noreferrer sponsored" className={styles.ctaGhost}>Gå til {name}</a>
+              )}
+              <p className={styles.others}>Priser ved 4.000 kWh om året i Vestdanmark, inkl. nettarif og afgifter. Spotpris er sidste måneds gennemsnit.</p>
             </aside>
-          ) : null}
+          )}
         </div>
       </div>
     </section>

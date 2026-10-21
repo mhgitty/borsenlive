@@ -28,7 +28,7 @@ function priceNumeric(raw: string): number {
   return Number.isFinite(n) ? n : 0
 }
 
-async function getProducts(brand: string): Promise<Ladeboks[]> {
+export async function getProducts(brand: string): Promise<Ladeboks[]> {
   const rows = await fetchSheetRows('Ladebokse')
   const wanted = brand.trim().toLowerCase()
   const out: Ladeboks[] = []
