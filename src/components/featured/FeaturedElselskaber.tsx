@@ -25,8 +25,8 @@ export async function FeaturedElselskaber({ area = 'DK1' }: { area?: 'DK1' | 'DK
       /^ingen$/i.test(p.binding) ? 'Ingen binding' : `Binding: ${p.binding}`,
       cfg.usp,
     ]
-    return { cfg, p, yearly: price.total * REFERENCE_KWH_ANNUAL, bullets }
-  }).filter(Boolean) as { cfg: (typeof FEATURED_ELSELSKABER)[number]; p: any; yearly: number; bullets: string[] }[]
+    return { cfg, p, kwh: price.total, monthly: price.monthly, bullets }
+  }).filter(Boolean) as { cfg: (typeof FEATURED_ELSELSKABER)[number]; p: any; kwh: number; monthly: number; bullets: string[] }[]
   if (!cards.length) return null
 
   return (
@@ -36,7 +36,7 @@ export async function FeaturedElselskaber({ area = 'DK1' }: { area?: 'DK1' | 'DK
         <span className={styles.note}>Priser ved {n0(REFERENCE_KWH_ANNUAL)} kWh om året i {area === 'DK2' ? 'Radius (Østdanmark)' : 'N1 A/S (Vestdanmark)'}</span>
       </div>
       <div className={styles.grid}>
-        {cards.map(({ cfg, p, yearly, bullets }) => (
+        {cards.map(({ cfg, p, kwh, monthly, bullets }) => (
           <article key={cfg.ctaSlug} className={styles.card} style={{ ['--accent' as any]: cfg.color }}>
             <span className={styles.ad}>Annonce</span>
             <div className={styles.logo}>
@@ -44,7 +44,7 @@ export async function FeaturedElselskaber({ area = 'DK1' }: { area?: 'DK1' | 'DK
               {p.logo ? <img src={p.logo} alt={p.name} loading="lazy" /> : <strong>{p.name}</strong>}
             </div>
             <h3 className={styles.headline}>{cfg.headline}</h3>
-            <div className={styles.price}><strong>{n0(yearly)}</strong> <span>kr./år</span></div>
+            <div className={styles.price}><strong>{dk(kwh, 2)}</strong> <span>kr./kWh</span><small>ca. {n0(monthly)} kr. pr. måned</small></div>
             <div className={styles.product}>{p.title}{p.campaign ? ` – ${p.campaign.trim()}` : ''}</div>
             <ul className={styles.bullets}>
               {bullets.map((b) => <li key={b}>{b}</li>)}
