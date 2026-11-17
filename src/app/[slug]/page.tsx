@@ -8,6 +8,7 @@ import { AuthorBar } from '@/components/AuthorBar'
 import { AuthorBio } from '@/components/AuthorBio'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { RichBody } from '@/components/RichBody'
+import { FeaturedElselskaber } from '@/components/featured/FeaturedElselskaber'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -237,6 +238,8 @@ export default async function SlugPage({ params }: Props) {
           <ComparisonTable data={page.comparisonTable} />
         </div>
       )}
+
+      {slug === 'elpriser-time-for-time' && <FeaturedElselskaber area={elprisArea(page.body, page.title) || 'DK1'} />}
 
       {page.body && (
         <div className="article-layout">

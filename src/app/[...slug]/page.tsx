@@ -7,6 +7,7 @@ import { LadeboksHero } from '@/components/review/LadeboksHero'
 import { ComparisonTable } from '@/components/ComparisonTable'
 import { AuthorBio } from '@/components/AuthorBio'
 import { RichBody } from '@/components/RichBody'
+import { FeaturedElselskaber } from '@/components/featured/FeaturedElselskaber'
 import { TableOfContents } from '@/components/TableOfContents'
 import { MobileToc } from '@/components/MobileToc'
 import { JsonLd } from '@/components/JsonLd'
@@ -119,6 +120,8 @@ export default async function DynamicPage({ params }: Props) {
           <ComparisonTable data={page.comparisonTable} />
         </div>
       )}
+
+      {slug[0] === 'elpriser-time-for-time' && <FeaturedElselskaber area={elprisArea(page.body, page.title) || 'DK1'} />}
 
       {page.body && (
         <div className="article-layout">
