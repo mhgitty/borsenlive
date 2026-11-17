@@ -72,7 +72,9 @@ function lastMonthRange(now = new Date()) {
 
 export const getRawPrice = cache(async (area: PriceArea): Promise<number> => {
   const { start, end } = lastMonthRange()
-  const records = await fetchDayAheadRecords(area, start, end, 3600)
+  // Only the price column: keeps the response ~100 KB so Next's data cache can store it
+  // (the full month is >2 MB, which is never cached and re-fetched on every render).
+  const records = await fetchDayAheadRecords(area, start, end, 3600, ['DayAheadPriceDKK'])
   const vals = records.map((r) => Number(r.DayAheadPriceDKK)).filter((v) => Number.isFinite(v))
   if (!vals.length) return 0
   return vals.reduce((a, b) => a + b, 0) / vals.length / 1000

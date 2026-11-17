@@ -19,7 +19,7 @@ export function replaceDateVars(str: string | null | undefined): string {
   const now = nowDk()
   const year  = now.year.toString()
   const month = MONTHS_DA[now.month]
-  const date  = now.day.toString()
+  const date  = `${now.day}. ${month} ${year}`  // [date] → "17. november 2026"
   return str
     .replace(/\[year\]/gi,         year)
     .replace(/%%currentyear%%/gi,  year)

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { headingId } from '@/lib/headingId'
+import { replaceDateVars } from '@/lib/dateVars'
 
 interface Heading {
   id: string
@@ -14,7 +15,7 @@ function extractHeadings(body: any[]): Heading[] {
     .filter((block: any) => block._type === 'block' && block.style === 'h2')
     .map((block: any) => {
       const text = block.children?.map((c: any) => c.text).join('') || ''
-      return { id: headingId(text), text }
+      return { id: headingId(text), text: replaceDateVars(text) }
     })
     .filter((h) => h.text.length > 0)
 }

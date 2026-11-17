@@ -97,20 +97,28 @@ export function fmtDk(n: number, digits = 2): string {
 // ─── API ─────────────────────────────────────────────────────────────────────
 
 export async function fetchDayAheadRecords(
-  area: PriceArea, startIso: string, endIso: string, revalidate = ELPRIS_REVALIDATE,
+  area: PriceArea, startIso: string, endIso: string, revalidate = ELPRIS_REVALIDATE, columns?: string[],
 ): Promise<DayAheadRecord[]> {
   const filter = encodeURIComponent(JSON.stringify({ PriceArea: [area] }))
   const url = 'https://api.energidataservice.dk/dataset/DayAheadPrices'
     + `?start=${encodeURIComponent(startIso)}&end=${encodeURIComponent(endIso)}`
     + `&sort=TimeUTC%20ASC&filter=${filter}&limit=10000`
-  try {
-    const res = await fetch(url, { next: { revalidate, tags: ['elpris'] } })
-    if (!res.ok) return []
-    const json = (await res.json()) as { records?: DayAheadRecord[] }
-    return Array.isArray(json?.records) ? json.records : []
-  } catch {
-    return []
+    + (columns?.length ? `&columns=${columns.join(',')}` : '')
+  // Energi Data Service rate-limits (HTTP 429), especially during builds when
+  // hundreds of pages render at once. Retry with backoff instead of silently
+  // returning no data — an empty answer would get cached into the page.
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const res = await fetch(url, { next: { revalidate, tags: ['elpris'] } })
+      if (res.ok) {
+        const json = (await res.json()) as { records?: DayAheadRecord[] }
+        return Array.isArray(json?.records) ? json.records : []
+      }
+      if (res.status !== 429 && res.status < 500) return []
+    } catch { /* network error → retry */ }
+    await new Promise((r) => setTimeout(r, 800 * 2 ** attempt + Math.random() * 400))
   }
+  return []
 }
 
 /** All 15-min records for one local day. */
